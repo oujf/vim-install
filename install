@@ -1,0 +1,45 @@
+#!/bin/sh
+
+cur_dir=`pwd`
+echo "PWD: $cur_dir"
+
+# install vim74 & ctags & cscope
+tar jxf package/vim-7.4.tar.bz2 -C .
+tar zxf package/ctags-5.8.tar.gz -C .
+tar zxf package/cscope-15.8a.tar.gz -C .
+sudo apt-get install libncurses5-dev
+
+for package in vim74 ctags-5.8 cscope-15.8a
+do
+	echo $package
+	cd $package
+	echo "\n install $package ..."
+
+	if [ $package = "vim74" ]; then
+		./configure --prefix=/usr --enable-cscope --enable-multibyte --enable-xim --enable-fontset --enable-gui=gtk2 --with-features=huge --with-x >/dev/null 2>&1
+	else
+		./configure --prefix=/usr/local >/dev/null 2>&1
+	fi
+
+	sudo make >/dev/null 2>&1; sudo make install >/dev/null 2>&1
+	cd $cur_dir
+	sudo rm -rf $package
+	echo " install $package done ...\n"
+done
+
+sudo rm -rf /usr/bin/vi
+sudo ln -s /usr/bin/vim /usr/bin/vi
+
+
+# create .vim folder and copy vimrc
+[ ! -e "$HOME/.vim" ] && mkdir -p ~/.vim/
+mkdir -p ~/.vim/.swap
+mkdir -p ~/.vim/.undodir
+cp -v vimrc ~/.vim/
+cp -rf scripts ~/.vim/
+cp -rf colors ~/.vim/
+
+cd ~/.vim
+ln -s scripts/tags tag
+echo "export PATH=~/.vim/:\$PATH" >> ~/.bashrc
+echo "\n configure vimrc done ...\n"
