@@ -16,7 +16,15 @@ do
 	echo "\n install $package ..."
 
 	if [ $package = "vim74" ]; then
-		./configure --prefix=/usr --enable-cscope --enable-multibyte --enable-xim --enable-fontset --enable-gui=gtk2 --with-features=huge --with-x >/dev/null 2>&1
+		./configure --prefix=/usr \
+			--enable-cscope \
+			--enable-multibyte \
+			--enable-xim \
+			--enable-fontset \
+			--enable-gui=gtk2 \
+			--with-features=huge \
+			--with-x \
+			>/dev/null 2>&1
 	else
 		./configure --prefix=/usr/local >/dev/null 2>&1
 	fi

@@ -49,7 +49,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 
-Plugin 'Lokaltog/powerline'
+"Plugin 'Lokaltog/powerline'
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'The-NERD-tree'
 Plugin 'tagbar'
@@ -57,17 +57,26 @@ Plugin 'taglist.vim'
 Plugin 'bufexplorer.zip'
 Plugin 'a.vim'
 Plugin 'c.vim'
+Plugin 'cpp.vim'
 Plugin 'DrawIt'
 Plugin 'JavaBrowser'
 Plugin 'snipMate'
+"Plugin 'honza/vim-snippets'			"snipMate & UltiSnip Snippets
+Plugin 'genutils'
 Plugin 'lookupfile'
-Plugin 'clones/vim-genutils'
 Plugin 'echofunc.vim'
 Plugin 'Mark'
 Plugin 'scrooloose/syntastic'
 Plugin 'grep.vim'
 Plugin 'CCTree'
-Plugin 'mru.vim'
+Plugin 'cecutil'
+Plugin 'BlockComment.vim'
+Plugin 'comments.vim'
+Plugin 'neocomplcache'
+"Plugin 'mru.vim'
+Plugin 'L9'
+Plugin 'FuzzyFinder'
+Plugin 'oujf/cscope_map.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
