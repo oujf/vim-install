@@ -7,9 +7,10 @@ echo "PWD: $cur_dir"
 tar jxf package/vim-7.4.tar.bz2 -C .
 tar zxf package/ctags-5.8.tar.gz -C .
 tar zxf package/cscope-15.8a.tar.gz -C .
+tar jxf package/ccglue-release-0.6.0.tar.bz2 -C .
 sudo apt-get install libncurses5-dev
 
-for package in vim74 ctags-5.8 cscope-15.8a
+for package in vim74 ctags-5.8 cscope-15.8a ccglue-0.6.0
 do
 	echo $package
 	cd $package

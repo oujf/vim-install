@@ -14,7 +14,7 @@ function file_list() {
 	echo -n -e '\e[0m'
 
 	for dir in $DIRS; do
-		find ./$dir -type f -name "*.h" \
+		find $PWD/$dir -type f -name "*.h" \
 			-o -type f -name "*.c" \
 			-o -type f -name "*.cc" \
 			-o -type f -name "*.cpp" \
@@ -22,7 +22,7 @@ function file_list() {
 			>> .vimproj/files.list
 	done
 
-	find . -maxdepth 1 -type f -name "*.h" \
+	find $PWD -maxdepth 1 -type f -name "*.h" \
 		-o -type f -name "*.c" \
 		-o -type f -name "*.cc" \
 		-o -type f -name "*.cpp" \
@@ -33,13 +33,13 @@ function file_list() {
 }
 
 function create_cscope() {
-	
+
 	new=y
-	
+
 	if [ -f .vimproj/cscope.out ]; then
 		read -p "cscope tags already exist!  Re-create? [yes/no] " new
 	fi
-		
+
 	if [[ "$new" == "y" ]] || [[ "$new" == "yes" ]]; then
 		if [ -d arch ] && [ -f ~/.vim/ktags ]; then
 			echo "create ktags cscope ..."
@@ -75,7 +75,7 @@ function create_tags() {
 			if [ ! -s .vimproj/files.list ]; then
 				file_list
 			fi
-				
+
 			echo "create tags ..."
 			time ctags -L .vimproj/files.list --c-kinds=+p --c++-kinds=+p --java-kinds=+l --fields=+lS --links=no -f .tags
 		fi
@@ -96,16 +96,20 @@ function create_ftags() {
 
 	if [[ "$new" == "y" ]] || [[ "$new" == "yes" ]]; then
 		echo "create filenametags ..."
-		
+
         time \
 		(echo "!_TAG_FILE_SORTED        2       /2=foldcase/";
-        (find . -not -regex '.*\.\(jar\|gif\|jpg\|class\|exe\|dll\|pdd\|sw[op]\|xls\|doc\|pdf\|zip\|tar\|ico\|ear\|war\|dat\|png\|gif\|html\)' -type f -printf "%f\t%p\t1\n" | \
+        (find $PWD -not -regex '.*\.\(jar\|gif\|jpg\|class\|exe\|dll\|pdd\|sw[op]\|xls\|doc\|pdf\|zip\|tar\|ico\|ear\|war\|dat\|png\|gif\|html\)' -type f -printf "%f\t%p\t1\n" | \
                 sort -f )) > ./.filenametags
-	
+
 		echo -e "\e[;32mdone. \e[0m"
 	fi
 
 	return 0
+}
+
+function create_ccglue() {
+	ccglue -S .vimproj/cscope.out -o .vimproj/cctree.out
 }
 
 function create_dir() {
@@ -148,11 +152,17 @@ function tag_status() {
 	else
 		echo -e 'check lookup index          [\e[;31mfail\e[0m]'
 	fi
+
+	if [ -f .vimproj/cctree.out ]; then
+		echo -e 'check cctree index          [\e[;32m ok \e[0m]'
+	else
+		echo -e 'check cctree index          [\e[;31mfail\e[0m]'
+	fi
 }
 
 function file_size() {
 	echo "----------------------------------"
-	
+
 	du -shc ".tags" ".vimproj/" ".filenametags"
 
 	#oujf1
@@ -173,6 +183,7 @@ function usage() {
 	echo "       n | new     new create cscope and ctags index."
 	echo "       a | all     recreate cscope and ctags index."
 	echo "       cs| cscope  create cscope index."
+	echo "       cc| ccglue  create ccglue index."
 	echo "       t | tag     create ctags index."
 	echo "       f | ftag    filenametags"
 	echo "       c | clean   remove all tags files"
@@ -223,6 +234,9 @@ case $1 in
 		create_dir
 		create_cscope
 		;;
+	"cc" | "ccglue")
+		create_ccglue
+		;;
 	"t" | "tag" | "tags")
 		create_dir
 		create_tags
@@ -242,5 +256,3 @@ case $1 in
 		error
 		;;
 esac
-
-
