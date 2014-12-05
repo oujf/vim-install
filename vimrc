@@ -68,7 +68,8 @@ Plugin 'echofunc.vim'
 Plugin 'Mark'
 Plugin 'scrooloose/syntastic'
 Plugin 'grep.vim'
-Plugin 'CCTree'
+"Plugin 'CCTree'
+Plugin 'hari-rangarajan/CCTree'
 Plugin 'cecutil'
 Plugin 'BlockComment.vim'
 Plugin 'comments.vim'
@@ -242,7 +243,7 @@ set scrolloff=3				" 设定光标离窗口上下边界 5 行时窗口自动滚�
 set warn                    " 对文本进行了新的修改后，离开shell时系统给出显示(缺省)
 set autowrite               " 自动写，转入shell或使用：n编辑其他文件时，当前的缓冲区被写入/不写
 set autoread				" auto read when file is changed from outside
-set autochdir				" 自动设置目录为正在编辑文件所在的目录
+"set autochdir				" 自动设置目录为正在编辑文件所在的目录  at cscope_map.vim set
 
 set showmatch				" Cursor shows matching ) and }
 set showmode				" Show current mode
@@ -607,9 +608,10 @@ endif
 
 " ctags, TagList, Tagbar.
 " @see http://easwy.com/blog/archives/advanced-vim-skills-taglist-plugin/
-set tags+=./.tags
-set tags+=./**/.tags
-set tags+=./../.tags
+set tags=.tags;
+"set tags+=./.tags
+"set tags+=./**/.tags
+"set tags+=./../.tags
 
 if g:OS#win
     let g:ctags_path=$VIM.'\vimfiles\plugin\ctags.exe'
