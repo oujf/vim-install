@@ -3,29 +3,30 @@
 " File: ~/.vim/vimrc
 " Description: Vim configuration file
 " History:
-"	2014-12-02
-"	+init
+"   2014-12-02
+"   +init
 "==============================================================================
 
 "------------------------------------------------------------------------------
 " HotKey
 " Fn:
-" <F3>		Grep
-" <F4>		TagBar
-" <F5>		Lookup File
-" <F6>		NERDTree
-" <F8>		Taglist
-" <F12>		.c --> .h
+" <F3>      Grep
+" <F4>      TagBar
+" <F5>      Lookup File
+" <F6>      NERDTree
+" <F8>      Taglist
+" <F12>     .c --> .h
 " Other:
-" lk ll lw		Lookup
-" <Ctrl-a>		nohl
-" \ja			JavaBrowser
-" \be			BufferExplorer
+" \lk \ll \lw   Lookup
+" <Ctrl-a>      nohl
+" \ja           JavaBrowser
+" \be           BufferExplorer
 "------------------------------------------------------------------------------
 
 
-let g:USE#bundle = 1	"default disbale bundle
-if g:USE#bundle			"{{{
+" ================================== Vundle ===================================
+let g:USE#bundle = 1    "default disbale bundle
+if g:USE#bundle         "{{{
 
 " Setting up Vundle - the vim plugin bundler
 let iCanHazVundle=1
@@ -39,7 +40,7 @@ if !filereadable(vundle_readme)
 endif
 
 set nocompatible              " be iMproved, required
-filetype off				  " necessary to make ftdetect work on Linux
+filetype off                  " necessary to make ftdetect work on Linux
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -48,8 +49,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-
-"Plugin 'Lokaltog/powerline'
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'The-NERD-tree'
 Plugin 'tagbar'
@@ -61,23 +60,24 @@ Plugin 'cpp.vim'
 Plugin 'DrawIt'
 Plugin 'JavaBrowser'
 Plugin 'snipMate'
-"Plugin 'honza/vim-snippets'			"snipMate & UltiSnip Snippets
 Plugin 'genutils'
 Plugin 'lookupfile'
 Plugin 'echofunc.vim'
 Plugin 'Mark'
 Plugin 'scrooloose/syntastic'
 Plugin 'grep.vim'
-"Plugin 'CCTree'
 Plugin 'hari-rangarajan/CCTree'
 Plugin 'cecutil'
 Plugin 'BlockComment.vim'
 Plugin 'comments.vim'
 Plugin 'neocomplcache'
-"Plugin 'mru.vim'
 Plugin 'L9'
 Plugin 'FuzzyFinder'
 Plugin 'oujf/cscope_map.vim'
+"Plugin 'Lokaltog/powerline'
+"Plugin 'honza/vim-snippets'        "snipMate & UltiSnip Snippets
+"Plugin 'CCTree'
+"Plugin 'mru.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -91,9 +91,10 @@ call vundle#end()            " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-endif		"}}}g:USE#bundle
+endif       "}}}g:USE#bundle
 
 
+" =========================== Environment variable ============================
 if has("win32") || has("win32unix")
     let g:OS#name = "win"
     let g:OS#win = 1
@@ -126,11 +127,12 @@ else
 endif
 
 
+" ================================= General ===================================
 " quick startup mode.
 set shortmess=atI
 
 " encoding
-set encoding=utf-8	   " Necessary to show unicode glyphs
+set encoding=utf-8     " Necessary to show unicode glyphs
 set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb2312,gb18030,gbk,big5,euc-jp,euc-kr,latin1
@@ -153,9 +155,10 @@ set fileformats=unix,dos,mac
 
 " theme, skin, color
 " terminal color settings
-colo oujf
 if g:OS#gui
-    "colo manuscript
+    colo manuscript
+else
+    colo oujf
 endif
 
 
@@ -164,7 +167,6 @@ if has('multi_byte_ime')
     highlight Cursor guibg=#F0E68C guifg=#708090
     highlight CursorIM guibg=Purple guifg=NONE
 endif
-
 
 
 " fonts
@@ -180,8 +182,6 @@ elseif g:OS#mac
 
     let g:airline_powerline_fonts = 1
 endif
-
-
 
 
 " set max window size.
@@ -204,9 +204,10 @@ endif
 
 " Tabs
 set noexpandtab
+set tabstop=4                " 设定 tab 长度为 4 个空格
 set shiftwidth=4             " 设定 << 和 >> 命令移动时的宽度为 4
-set softtabstop=4            " 使得按退格键时可以一次删掉 4 个空格,不足 4 个时删掉所有剩下的空格）
-set tabstop=4                " 设定 tab 长度为 4
+set softtabstop=4            " 使得按退格键时可以一次删掉 4 个空格,不足 4 个时删掉所有剩下的空格
+                             " “逢[tabstop]空格进1制表符”
 
 au FileType c,cpp,java,php setl expandtab | setl shiftwidth=4 | setl tabstop=4
 au FileType html,javascript setl shiftwidth=2
@@ -216,48 +217,53 @@ au FileType html,javascript setl tabstop=2
 
 " ignore these files while expanding wild chars
 " @see http://man.lupaworld.com/content/manage/vi/doc/quickref.html
-set wildchar=<TAB>	        " start wild expansion in the command line using <TAB>
+set wildchar=<TAB>          " start wild expansion in the command line using <TAB>
 set wildmenu                " wild char completion menu
 set wildignore=*.o,*.class,*.pyc
 set showcmd                 " 在状态栏显示目前所执行的指令，未完成的指令片段亦会显示出来
-set history=50				" keep 50 lines of command line history
+set history=50              " keep 50 lines of command line history
 
-set number					" show linenumber
+set number                  " show linenumber
 set cindent                 " 以C/C++的模式缩进
-set autoindent				" new line indent same this line.
-set copyindent				" copy the previous indentation on autoindenting
+set autoindent              " new line indent same this line.
+set copyindent              " copy the previous indentation on autoindenting
 set smartindent
-set smarttab				" insert tabs on the start of a line according to context
+set smarttab                " insert tabs on the start of a line according to context
 
-set incsearch				" incremental search //输入搜索模式时高亮匹配部分
-set hlsearch				" search highlighting
-set ignorecase				" ignore case when searching
-"set noignorecase			" case-sensitive
-set smartcase				" ignore case if search pattern is all lowercase,case-sensitive otherwise
+set incsearch               " incremental search //输入搜索模式时高亮匹配部分
+set hlsearch                " search highlighting
+set ignorecase              " ignore case when searching
+"set noignorecase           " case-sensitive
+set smartcase               " ignore case if search pattern is all lowercase,case-sensitive otherwise
 set wrapscan                " 在搜索时如到达文件尾则绕回文件头继续搜索
 
 set wrap                    " 长行显示自动折行
-set linebreak				" break full word.
-set scrolloff=3				" 设定光标离窗口上下边界 5 行时窗口自动滚动
+set linebreak               " break full word.
+set scrolloff=3             " 设定光标离窗口上下边界 5 行时窗口自动滚动
 
 set warn                    " 对文本进行了新的修改后，离开shell时系统给出显示(缺省)
 set autowrite               " 自动写，转入shell或使用：n编辑其他文件时，当前的缓冲区被写入/不写
-set autoread				" auto read when file is changed from outside
-"set autochdir				" 自动设置目录为正在编辑文件所在的目录  at cscope_map.vim set
+set autoread                " auto read when file is changed from outside
+"set autochdir              " 自动设置目录为正在编辑文件所在的目录  at cscope_map.vim set
 
-set showmatch				" Cursor shows matching ) and }
-set showmode				" Show current mode
-set ruler					" show the cursor position all the time
-set listchars=tab:>>,trail:-	" tab 以 >> 显示  空格以 --显示
+set showmatch               " Cursor shows matching ) and }
+set showfulltag
+set matchpairs=(:),{:},[:],<:>
+set matchtime=5             " Show matchtime in 0.5s
+set showmode                " Show current mode
+
+set ruler                   " show the cursor position all the time
+"set listchars=tab:>>,trail:-   " tab 以 >> 显示  空格以 --显示
+set listchars=tab:>>,trail:¶    " tab 以 >> 显示  空格以 ¶ 显示
 "set list
-set backspace=indent,eol,start	" 解决backspace无法删除的问题
+set backspace=indent,eol,start  " 解决backspace无法删除的问题
 
-set splitright				" 新窗口在当前窗口之右
-"set splitbelow				" 分割窗口时新窗口在当前窗口之下
+set splitright                  " 新窗口在当前窗口之右
+"set splitbelow                 " 分割窗口时新窗口在当前窗口之下
 
 
 " Folds.
-set foldmethod=syntax		" 按照语法区域折叠
+set foldmethod=syntax           " 按照语法区域折叠
 set foldlevel=6
 set foldcolumn=0
 
@@ -275,7 +281,6 @@ set t_vb=
 set tm=500
 
 
-set nobackup				" no *~ backup files
 " swap file, auto backup.
 if g:OS#win
     set directory=$VIM\_swap
@@ -296,8 +301,9 @@ if has("persistent_undo")
     endif
 endif
 
+set nobackup				" no *~ backup files
 
-" =========== Mappings =============
+" ================================== Keymap ===================================
 
 " Normal Mode, Visual Mode, and Select Mode,
 " use <Tab> and <Shift-Tab> to indent
@@ -307,7 +313,11 @@ endif
 vmap <tab>   >gv
 vmap <s-tab> <gv
 
+" 选中一段文字并全文搜索这段文字
+vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
+vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
+" @see http://blog.hotoo.me/post/vim-autocomplete-pairs
 inoremap ( <c-r>=OpenPair('(')<CR>
 inoremap ) <c-r>=ClosePair(')')<CR>
 inoremap { <c-r>=OpenPair('{')<CR>
@@ -537,7 +547,7 @@ else
 endif
 
 
-" =========== Plugins ==============
+" ================================== Plugins ==================================
 
 " MRU.vim
 " try for Terminal.
@@ -558,7 +568,7 @@ let MRU_Max_Entries = 1000
 "
 "let g:acp_behaviorSnipmateLength = 1        " AutoComplete snippets for snipMate.
 let g:acp_behaviorHtmlOmniLength = -1
-let g:AutoComplPop_MappingDriven = 1        " Don't popup when move cursor.
+let g:AutoComplPop_MappingDriven = 1         " Don't popup when move cursor.
 let g:AutoComplPop_IgnoreCaseOption = 1
 " @see http://d.hatena.ne.jp/cooldaemon/20071114/1195029893
 autocmd FileType * let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i'
@@ -586,12 +596,13 @@ let g:Powerline_symbols = 'unicode'
 let g:Powerline_cache_enabled = 0	" Disable cache file create
 call Pl#Theme#InsertSegment('pwd', 'after', 'mode_indicator')
 
+
 " Syntastic 语法检查
 if &diff
   let g:loaded_syntastic_plugin = 1
 else
   let g:syntastic_javascript_checkers = ["jshint", "gjslint", "closurecompiler", "jsl"]
-  let g:syntastic_javascript_jshint_args = '--config /Users/hotoo/.jshintrc'
+  "let g:syntastic_javascript_jshint_args = '--config'
   let g:syntastic_always_populate_loc_list=1
   let g:syntastic_check_on_open=1
   let g:syntastic_check_on_wq=0
@@ -650,7 +661,7 @@ nmap <F4> :TagbarToggle<CR>
 
 
 " --- cscope
-"use cscope_map.vim
+"use oujf/cscope_map.vim
 
 
 " --- A
@@ -660,6 +671,7 @@ nnoremap <silent> <F12> :A<CR>
 " --- Grep
 "nnoremap <silent> <F3> :Grep<CR>
 nnoremap <silent> <F3> :Rgrep<CR>
+
 
 " --- lookupfile
 let g:LookupFile_MinPatLength = 2               "最少输入2个字符才开始查找
@@ -694,9 +706,6 @@ let javabrowser_ctags_cmd = '/usr/local/bin/ctags'
 let JavaBrowser_Inc_Winwidth = 0
 nmap <silent> <leader>ja :JavaBrowser<cr>
 
-
-
-
 let tlist_vimwiki_settings = 'wiki;h:Headers'
 let tlist_confluencewiki_settings = 'confluencewiki;h:Headers'
 let tlist_markdown_settings = 'markdown;h:Headers'
@@ -708,7 +717,7 @@ let tlist_css_settings = 'css;c:Classes;o:Objects(ID);t:Tags(Elements)'
 let tlist_javascript_settings = 'javascript;f:Functions;c:Classes;o:Objects'
 
 
-" --------------------------- Macros & Functions ------------------------ {{{
+" =========================== Macros & Functions ==============================
 " Remove trailing whitespace when writing a buffer, but not for diff files.
 " From: Vigil
 " @see http://blog.bs2.to/post/EdwardLee/17961
@@ -716,8 +725,9 @@ function! RemoveTrailingWhitespace()
     if &ft != "diff"
         let b:curcol = col(".")
         let b:curline = line(".")
-        silent! %s/\s\+$//
-        silent! %s/\(\s*\n\)\+\%$//
+        silent! %s/\s\+$//              " Remove spaces and tabs from end of every line
+        silent! %s/\n\{5,\}/\r\r/       " Merge blank lines, than 3 line.
+        "silent! %s/\(\s*\n\)\+\%$//    " Remove last blank line
         call cursor(b:curline, b:curcol)
     endif
 endfunction
@@ -725,9 +735,11 @@ autocmd BufWritePre * call RemoveTrailingWhitespace()
 
 highlight TabSpace ctermbg=green guibg=green
 syntax match TabSpace /\t/
+" 显示行尾的空格
 highlight WhitespaceEOL ctermbg=yellow guibg=yellow
 syntax match WhitespaceEOL /\s\+$/
 
 
 " auto reload vimrc when editing it
 autocmd! bufwritepost .vimrc source ~/.vimrc
+
