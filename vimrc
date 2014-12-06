@@ -10,17 +10,20 @@
 "------------------------------------------------------------------------------
 " HotKey
 " Fn:
+" <F2>      pastetoggle
 " <F3>      Grep
 " <F4>      TagBar
 " <F5>      Lookup File
 " <F6>      NERDTree
 " <F8>      Taglist
+" <F9>      Quickfix
 " <F12>     .c --> .h
 " Other:
 " \lk \ll \lw   Lookup
 " <Ctrl-a>      nohl
 " \ja           JavaBrowser
 " \be           BufferExplorer
+" \t            TagBar
 "------------------------------------------------------------------------------
 
 
@@ -242,9 +245,9 @@ set linebreak               " break full word.
 set scrolloff=3             " 设定光标离窗口上下边界 5 行时窗口自动滚动
 
 set warn                    " 对文本进行了新的修改后，离开shell时系统给出显示(缺省)
-set autowrite               " 自动写，转入shell或使用：n编辑其他文件时，当前的缓冲区被写入/不写
+set autowrite               " auto writefile when sth happened such as :make or :last or others.See the help
 set autoread                " auto read when file is changed from outside
-"set autochdir              " 自动设置目录为正在编辑文件所在的目录  at cscope_map.vim set
+"set autochdir              " auto change directory
 
 set showmatch               " Cursor shows matching ) and }
 set showfulltag
@@ -312,6 +315,15 @@ set nobackup				" no *~ backup files
 "nmap <s-tab> v<
 vmap <tab>   >gv
 vmap <s-tab> <gv
+
+" Fast saving
+map <leader>w :w!<cr>
+map <c-s> <Esc>:w !sudo tee %
+" Copypath
+map <leader>file :echo expand("%:p")<cr>
+" Paste toggle - when pasting something in, don't indent.
+set pastetoggle=<F2>
+
 
 " 选中一段文字并全文搜索这段文字
 vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
@@ -495,13 +507,13 @@ endif
 imap <C-t> <Esc>:tabnew<cr>
 nmap <C-t> :tabnew<cr>
 "imap <C-w> <Esc>:tabclose<cr> " window shortcut key.
-"nmap <C-w> :tableclose<cr>
+"nmap <C-w> :tabclose<cr>
 "imap <C-S-w> <Esc>:tabonly<cr>
 "nmap <C-S-w> :tabonly<cr>
 "imap <S-h> :tabnext<cr>
-nmap <S-h> :tabnext<cr>
+nmap <S-l> :tabnext<cr>
 "imap <S-l> :tabprevious<cr>
-nmap <S-l> :tabprevious<cr>
+nmap <S-h> :tabprevious<cr>
 if g:OS#mac
     imap <D-1> <Esc>:tabfirst<cr>
     nmap <D-1> :tabfirst<cr>
@@ -556,6 +568,9 @@ try
 catch /.*/
 endtry
 let MRU_Max_Entries = 1000
+let MRU_Max_Menu_Entries = 20
+let MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'
+let MRU_Window_Height = 8
 
 
 " autocomplpop.vim, acp.vim
@@ -573,8 +588,6 @@ let g:AutoComplPop_IgnoreCaseOption = 1
 " @see http://d.hatena.ne.jp/cooldaemon/20071114/1195029893
 autocmd FileType * let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i'
 if g:OS#win
-    "autocmd FileType perl let g:AutoComplPop_CompleteOption = '.,w,b,u,t,k~/.vim/dict/perl.dict'
-    "autocmd FileType ruby let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i,k~/.vim/dict/ruby.dict'
     autocmd FileType javascript let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
 else
     autocmd FileType javascript let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
@@ -657,7 +670,8 @@ let g:tagbar_width = 30             "窗口宽度
 let g:tagbar_autofocus = 1          "启动后光标focus到窗口
 let g:tagbar_sort = 0               "启动时不自动按name排序，以出现的先后顺序排列，s<CR>可以手动按name排序
 "let g:tagbar_autoshowtag = 1
-nmap <F4> :TagbarToggle<CR>
+"nmap <F4> :TagbarToggle<CR>
+nmap <leader>t :TagbarToggle<CR>
 
 
 " --- cscope
@@ -727,6 +741,7 @@ function! RemoveTrailingWhitespace()
         let b:curline = line(".")
         silent! %s/\s\+$//              " Remove spaces and tabs from end of every line
         silent! %s/\n\{5,\}/\r\r/       " Merge blank lines, than 3 line.
+        "silent! g/^\s*$/d               " Remove blank line
         "silent! %s/\(\s*\n\)\+\%$//    " Remove last blank line
         call cursor(b:curline, b:curcol)
     endif
