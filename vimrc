@@ -24,11 +24,14 @@
 " \ja           JavaBrowser
 " \be           BufferExplorer
 " \t            TagBar
+" n\cc			Comments out the current line or text selected in visual mode.
+" n\cu			Uncomments the selected line(s).
+" n\cm			/* Comments */
 "------------------------------------------------------------------------------
 
 
 " ================================== Vundle ===================================
-let g:USE#bundle = 1    "default disbale bundle
+let g:USE#bundle = 1    "default enable bundle
 if g:USE#bundle         "{{{
 
 " Setting up Vundle - the vim plugin bundler
@@ -54,6 +57,8 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'The-NERD-tree'
+"Plugin 'The-NERD-Commenter'
+Plugin 'scrooloose/nerdcommenter'
 Plugin 'tagbar'
 Plugin 'taglist.vim'
 Plugin 'bufexplorer.zip'
@@ -76,6 +81,7 @@ Plugin 'comments.vim'
 Plugin 'neocomplcache'
 Plugin 'L9'
 Plugin 'FuzzyFinder'
+Plugin 'sudo.vim'
 Plugin 'oujf/cscope_map.vim'
 "Plugin 'Lokaltog/powerline'
 "Plugin 'honza/vim-snippets'        "snipMate & UltiSnip Snippets
@@ -684,7 +690,12 @@ nnoremap <silent> <F12> :A<CR>
 
 " --- Grep
 "nnoremap <silent> <F3> :Grep<CR>
-nnoremap <silent> <F3> :Rgrep<CR>
+nnoremap <silent> <F3> :Rgrep
+            \ --include="*.h"
+            \ --include="*.c"
+            \ --include="*.cc"
+            \ --include="*.cpp"
+            \ --include="*.java"<CR>
 
 
 " --- lookupfile
