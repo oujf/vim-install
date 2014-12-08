@@ -9,7 +9,7 @@ Vim settings, plugins...
 
 ```
 .
-├── colors				" 配色
+├── colors				" theme
 ├── install				" ./install
 ├── package
 │   ├── ccglue-release-0.6.0.tar.bz2
@@ -20,8 +20,8 @@ Vim settings, plugins...
 ├── scripts
 │   ├── ktags			" kernel tag script
 │   ├── tags			" general tag script
-│   └── vimdir_tar.sh	" 打包.vim目录
-└── vimrc				" vim 配置文件
+│   └── vimdir_tar.sh	" tar .vim dir
+└── vimrc				" vim runcomm
 
 ```
 
