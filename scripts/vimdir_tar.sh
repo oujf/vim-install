@@ -11,5 +11,5 @@ rm -rf .vim/.swap/*
 rm -rf .vim/.undodir/*
 cp -rf .vim _vim
 rm -vf vim_plugins*.tgz
-tar zcvf vim_plugins_$CURDATE\_$CURTIME.tgz _vim/
+tar zcvf vim_plugins_$CURDATE\_$CURTIME.tgz --exclude=.git _vim/
 rm -rf _vim

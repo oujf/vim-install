@@ -86,6 +86,28 @@ function create_tags() {
 	return 0
 }
 
+function create_gtags() {
+
+	new=y
+
+	if [ -f .GTAGS ]; then
+		read -p "gtags already exists! Re-create? [yes/no] " new
+	fi
+
+	if [[ "$new" == "y" ]] || [[ "$new" == "yes" ]]; then
+		if [ ! -s .vimproj/files.list ]; then
+			file_list
+		fi
+
+		echo "create gtags ..."
+		time gtags -f .vimproj/files.list
+
+		echo -e "\e[;32mdone. \e[0m"
+	fi
+
+	return 0
+}
+
 function create_ftags() {
 
 	new=y
@@ -129,6 +151,10 @@ function remove_file() {
 		rm -vf  .tags
 	fi
 
+	if [ -f .GTAGS ]; then
+		rm -vf  .GTAGS .GRTAGS .GPATH
+	fi
+
 	if [ -f .filenametags ]; then
 		rm -vf  .filenametags
 	fi
@@ -147,6 +173,12 @@ function tag_status() {
 		echo -e 'check ctags  index          [\e[;31mfail\e[0m]'
 	fi
 
+	if [ -f .GTAGS ]; then
+		echo -e 'check gtags  index          [\e[;32m ok \e[0m]'
+	else
+		echo -e 'check gtags  index          [\e[;31mfail\e[0m]'
+	fi
+
 	if [ -f .filenametags ]; then
 		echo -e 'check lookup index          [\e[;32m ok \e[0m]'
 	else
@@ -163,10 +195,10 @@ function tag_status() {
 function file_size() {
 	echo "----------------------------------"
 
-	du -shc ".tags" ".vimproj/" ".filenametags"
+	du -shc ".tags" ".vimproj/" ".filenametags" ".GTAGS"
 
 	#oujf1
-	str=`du -skc ".tags" ".vimproj/" ".filenametags"`
+	str=`du -skc ".tags" ".vimproj/" ".filenametags" ".GTAGS"`
 	size=`echo $str | awk '{split($0,str," ");printf "%.2f\n",str[7]/1024}'`
 	echo -e "total size \e[;31m$size\e[0mM"
 
@@ -184,6 +216,7 @@ function usage() {
 	echo "       a | all     recreate cscope and ctags index."
 	echo "       cs| cscope  create cscope index."
 	echo "       cc| ccglue  create ccglue index."
+	echo "       g | gtags   create gtags index."
 	echo "       t | tag     create ctags index."
 	echo "       f | ftag    filenametags"
 	echo "       c | clean   remove all tags files"
@@ -219,16 +252,22 @@ case $1 in
 	"n" | "new")
 		remove_file
 		create_dir
-		create_cscope
-		create_tags
+		create_gtags
+		#create_cscope
+		#create_tags
         create_ftags
 		file_size
 		;;
 	"a" | "all")
 		create_dir
-		create_cscope
-		create_tags
+		create_gtags
+		#create_cscope
+		#create_tags
         create_ftags
+		;;
+	"g" | "gtags")
+		create_dir
+		create_gtags
 		;;
 	"cs" | "cscope")
 		create_dir

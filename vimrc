@@ -57,6 +57,8 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'The-NERD-tree'
+"Plugin 'comments.vim'
+"Plugin 'BlockComment.vim'
 "Plugin 'The-NERD-Commenter'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tagbar'
@@ -76,8 +78,6 @@ Plugin 'scrooloose/syntastic'
 Plugin 'grep.vim'
 Plugin 'hari-rangarajan/CCTree'
 Plugin 'cecutil'
-Plugin 'BlockComment.vim'
-Plugin 'comments.vim'
 Plugin 'neocomplcache'
 Plugin 'L9'
 Plugin 'FuzzyFinder'
@@ -668,8 +668,9 @@ let g:ctags_args=1
 let g:Tlist_Use_Right_Window=1
 let g:Tlist_Show_One_File = 1
 let g:Tlist_Exit_OnlyWindow = 1
-let g:Tlist_WinWidth=25
-nnoremap <F8> :TlistToggle<CR>
+let g:Tlist_WinWidth=50
+"nnoremap <F8> :TlistToggle<CR>
+nmap <leader>tl :TlistToggle<CR>
 
 let g:tagbar_left = 1               "窗口显示在左边
 let g:tagbar_width = 30             "窗口宽度
@@ -684,13 +685,23 @@ nmap <leader>t :TagbarToggle<CR>
 "use oujf/cscope_map.vim
 
 
+" --- GTAGS - GNU GLOBAL Source Code Tag System
+let Gtags_Auto_Map = 1
+let GtagsCscope_Auto_Map = 1		" To use the default key/mouse mapping
+let GtagsCscope_Ignore_Case = 1		" To ignore letter case when searching
+let GtagsCscope_Absolute_Path = 1	" To use absolute path name
+let GtagsCscope_Keep_Alive = 1		" To deterring interruption
+let GtagsCscope_Auto_Load = 1		" If you hope auto loading
+set cscopetag						" To use 'vim -t ', ':tag' and '<C-]>'
+
+
 " --- A
 nnoremap <silent> <F12> :A<CR>
 
 
 " --- Grep
 "nnoremap <silent> <F3> :Grep<CR>
-nnoremap <silent> <F3> :Rgrep
+nnoremap <silent> <leader>g :Rgrep
             \ --include="*.h"
             \ --include="*.c"
             \ --include="*.cc"
@@ -719,7 +730,8 @@ nmap <silent> <leader>lw :LUWalk<cr>
 
 
 " --- NERDTree
-nnoremap <silent> <F6> :NERDTreeToggle<CR>
+"nnoremap <silent> <F6> :NERDTreeToggle<CR>
+nnoremap <leader>N :NERDTreeToggle<CR>
 
 
 " --- nohl
