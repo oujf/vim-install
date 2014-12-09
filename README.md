@@ -13,6 +13,7 @@ Vim settings, plugins...
 ├── install				" ./install
 ├── package
 │   ├── ccglue-release-0.6.0.tar.bz2
+│   ├── global-6.3.3.tar.gz
 │   ├── cscope-15.8a.tar.gz
 │   ├── ctags-5.8.tar.gz
 │   └── vim-7.4.tar.bz2

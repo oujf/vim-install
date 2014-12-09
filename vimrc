@@ -10,23 +10,32 @@
 "------------------------------------------------------------------------------
 " HotKey
 " Fn:
-" <F2>      pastetoggle
-" <F3>      Grep
-" <F4>      TagBar
+" <F2>      :copen
+" <F3>      pastetoggle
+" <F4>      :cclose
 " <F5>      Lookup File
-" <F6>      NERDTree
-" <F8>      Taglist
+" <F6>      :Gtags -f %
+" <F7>      :GtagsCursor
+" <F8>      :Gozilla
 " <F9>      Quickfix
 " <F12>     .c --> .h
 " Other:
 " \lk \ll \lw   Lookup
 " <Ctrl-a>      nohl
+" <Ctrl-n>      :cn
+" <Ctrl-p>      :cp
 " \ja           JavaBrowser
 " \be           BufferExplorer
 " \t            TagBar
-" n\cc			Comments out the current line or text selected in visual mode.
-" n\cu			Uncomments the selected line(s).
-" n\cm			/* Comments */
+" \w            :w!
+" \file         echo filepath
+" \N            NERDTree
+" \t            TagBar
+" \tl           Tlist
+" \g            :Rgrep
+" n\cc          Comments out the current line or text selected in visual mode.
+" n\cu          Uncomments the selected line(s).
+" n\cm          /* Comments */
 "------------------------------------------------------------------------------
 
 
@@ -328,7 +337,7 @@ map <c-s> <Esc>:w !sudo tee %
 " Copypath
 map <leader>file :echo expand("%:p")<cr>
 " Paste toggle - when pasting something in, don't indent.
-set pastetoggle=<F2>
+set pastetoggle=<F3>
 
 
 " 选中一段文字并全文搜索这段文字
@@ -600,12 +609,12 @@ else
 endif
 
 
-" NERDTree
+" --- NERDTree
 " @see http://www.vim.org/scripts/script.php?script_id=2801
 let g:NERDTreeWinPos="left"
 let g:NERDTreeWinSize=20
-imap <F6> <Esc>:ToggleNERDTree<cr>
-nmap <F6> :ToggleNERDTree<cr>
+imap <leader>N <Esc>:ToggleNERDTree<cr>
+nmap <leader>N :ToggleNERDTree<cr>
 
 
 " Powerline.vim
@@ -669,7 +678,6 @@ let g:Tlist_Use_Right_Window=1
 let g:Tlist_Show_One_File = 1
 let g:Tlist_Exit_OnlyWindow = 1
 let g:Tlist_WinWidth=50
-"nnoremap <F8> :TlistToggle<CR>
 nmap <leader>tl :TlistToggle<CR>
 
 let g:tagbar_left = 1               "窗口显示在左边
@@ -677,22 +685,34 @@ let g:tagbar_width = 30             "窗口宽度
 let g:tagbar_autofocus = 1          "启动后光标focus到窗口
 let g:tagbar_sort = 0               "启动时不自动按name排序，以出现的先后顺序排列，s<CR>可以手动按name排序
 "let g:tagbar_autoshowtag = 1
-"nmap <F4> :TagbarToggle<CR>
 nmap <leader>t :TagbarToggle<CR>
 
+" --- choose cscope or gtags
+if filereadable("/usr/bin/gtags") ||
+            \ filereadable("/usr/local/bin/gtags")
+    let g:cscope_enable = 0
+elseif filereadable("/usr/bin/cscope") ||
+            \ filereadable("/usr/local/bin/cscope")
+    let g:cscope_enable = 1
+endif
+
+if !exists("g:cscope_enable")
+    let g:cscope_enable = 0
+endif
 
 " --- cscope
 "use oujf/cscope_map.vim
 
-
 " --- GTAGS - GNU GLOBAL Source Code Tag System
-let Gtags_Auto_Map = 1
-let GtagsCscope_Auto_Map = 1		" To use the default key/mouse mapping
-let GtagsCscope_Ignore_Case = 1		" To ignore letter case when searching
-let GtagsCscope_Absolute_Path = 1	" To use absolute path name
-let GtagsCscope_Keep_Alive = 1		" To deterring interruption
-let GtagsCscope_Auto_Load = 1		" If you hope auto loading
-set cscopetag						" To use 'vim -t ', ':tag' and '<C-]>'
+if g:cscope_enable == 0
+    let Gtags_Auto_Map = 1
+    let GtagsCscope_Auto_Map = 1        " To use the default key/mouse mapping
+    let GtagsCscope_Ignore_Case = 1     " To ignore letter case when searching
+    let GtagsCscope_Absolute_Path = 1   " To use absolute path name
+    let GtagsCscope_Keep_Alive = 1      " To deterring interruption
+    let GtagsCscope_Auto_Load = 1       " If you hope auto loading
+    set cscopetag                       " To use 'vim -t ', ':tag' and '<C-]>'
+endif
 
 
 " --- A
@@ -700,7 +720,6 @@ nnoremap <silent> <F12> :A<CR>
 
 
 " --- Grep
-"nnoremap <silent> <F3> :Grep<CR>
 nnoremap <silent> <leader>g :Rgrep
             \ --include="*.h"
             \ --include="*.c"
@@ -727,11 +746,6 @@ nmap <silent> <leader>lk :LUTags<cr>
 nmap <silent> <leader>ll :LUBufs<cr>
 "映射LUWalk为,\lw
 nmap <silent> <leader>lw :LUWalk<cr>
-
-
-" --- NERDTree
-"nnoremap <silent> <F6> :NERDTreeToggle<CR>
-nnoremap <leader>N :NERDTreeToggle<CR>
 
 
 " --- nohl
