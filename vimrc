@@ -91,7 +91,7 @@ Plugin 'neocomplcache'
 Plugin 'L9'
 Plugin 'FuzzyFinder'
 Plugin 'sudo.vim'
-Plugin 'oujf/cscope_map.vim'
+Plugin 'oujf/cscope_maps'
 "Plugin 'Lokaltog/powerline'
 "Plugin 'honza/vim-snippets'        "snipMate & UltiSnip Snippets
 "Plugin 'CCTree'
