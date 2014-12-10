@@ -11,6 +11,13 @@ tar zxf package/global-6.3.3.tar.gz -C .
 tar jxf package/ccglue-release-0.6.0.tar.bz2 -C .
 sudo apt-get install libncurses5-dev
 
+die() {
+	cd $cur_dir
+	sudo rm -rf $1
+	echo "$1 install fail!" >&2
+	exit 1
+}
+
 for package in vim74 ctags-5.8 cscope-15.8a ccglue-0.6.0 global-6.3.3
 do
 	echo $package
@@ -32,6 +39,7 @@ do
 	fi
 
 	sudo make >/dev/null 2>&1; sudo make install >/dev/null 2>&1
+	[ $? -ne 0 ] && die $package
 	cd $cur_dir
 	sudo rm -rf $package
 	echo " install $package done ...\n"

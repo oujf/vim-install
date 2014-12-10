@@ -613,8 +613,8 @@ endif
 " @see http://www.vim.org/scripts/script.php?script_id=2801
 let g:NERDTreeWinPos="left"
 let g:NERDTreeWinSize=20
-imap <leader>N <Esc>:ToggleNERDTree<cr>
-nmap <leader>N :ToggleNERDTree<cr>
+imap <leader>N <Esc>:NERDTreeToggle<cr>
+nmap <leader>N :NERDTreeToggl<cr>
 
 
 " Powerline.vim
