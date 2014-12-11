@@ -42,7 +42,7 @@ function create_cscope() {
 
 	if [[ "$new" == "y" ]] || [[ "$new" == "yes" ]]; then
 		if [ -d arch ] && [ -f ~/.vim/ktags ]; then
-			echo "create ktags cscope ..."
+			echo -e 'use [\e[;31mktags\e[0m] create cscope ...'
 			time ktags cscope
 		else
 			file_list
@@ -69,7 +69,7 @@ function create_tags() {
 
 	if [[ "$new" == "y" ]] || [[ "$new" == "yes" ]]; then
 		if [ -d arch ] && [ -f ~/.vim/ktags ]; then
-			echo "create ktags tags ..."
+			echo -e 'use [\e[;31mktags\e[0m] create tags ...'
 			time ktags tags
 		else
 			if [ ! -s .vimproj/files.list ]; then
@@ -95,12 +95,17 @@ function create_gtags() {
 	fi
 
 	if [[ "$new" == "y" ]] || [[ "$new" == "yes" ]]; then
-		if [ ! -s .vimproj/files.list ]; then
-			file_list
-		fi
+		if [ -d arch ] && [ -f ~/.vim/ktags ]; then
+			echo -e 'use [\e[;31mktags\e[0m] create gtags ...'
+			time ktags gtags
+		else
+			if [ ! -s .vimproj/files.list ]; then
+				file_list
+			fi
 
-		echo "create gtags ..."
-		time gtags -f .vimproj/files.list
+			echo "create gtags ..."
+			time gtags -f .vimproj/files.list
+		fi
 
 		echo -e "\e[;32mdone. \e[0m"
 	fi
@@ -141,67 +146,37 @@ function create_dir() {
 }
 
 function remove_file() {
-	rm -rvf .vimproj
-
-	if [ -f ncscope.out ]; then
-		rm -vf ncscope.out
-	fi
-
-	if [ -f .tags ]; then
-		rm -vf  .tags
-	fi
-
-	if [ -f .GTAGS ]; then
-		rm -vf  .GTAGS .GRTAGS .GPATH
-	fi
-
-	if [ -f .filenametags ]; then
-		rm -vf  .filenametags
-	fi
+	for file in .vimproj .tags .GTAGS .GRTAGS .GPATH .filenametags
+	do
+		if [ -f $file ] || [ -d $file ]; then
+			rm -rvf $file
+		fi
+	done
 }
 
 function tag_status() {
-	if [ -f .vimproj/cscope.out ]; then
-		echo -e 'check cscope index          [\e[;32m ok \e[0m]'
-	else
-		echo -e 'check cscope index          [\e[;31mfail\e[0m]'
-	fi
+	for file in .vimproj/cscope.out .tags .GTAGS .filenametags .vimproj/cctree.out
+	do
+		len=`expr length $file`
+		pos=`expr "30" - $len`
 
-	if [ -f .tags ]; then
-		echo -e 'check ctags  index          [\e[;32m ok \e[0m]'
-	else
-		echo -e 'check ctags  index          [\e[;31mfail\e[0m]'
-	fi
+		if [ -f $file ]; then
+			files=${files}" "${file}
+			echo -e "check $file index \033["$pos"C[\e[;32m ok \e[0m]"
+		else
+			echo -e "check $file index \033["$pos"C[\e[;31mfail\e[0m]"
+		fi
+	done
 
-	if [ -f .GTAGS ]; then
-		echo -e 'check gtags  index          [\e[;32m ok \e[0m]'
-	else
-		echo -e 'check gtags  index          [\e[;31mfail\e[0m]'
-	fi
-
-	if [ -f .filenametags ]; then
-		echo -e 'check lookup index          [\e[;32m ok \e[0m]'
-	else
-		echo -e 'check lookup index          [\e[;31mfail\e[0m]'
-	fi
-
-	if [ -f .vimproj/cctree.out ]; then
-		echo -e 'check cctree index          [\e[;32m ok \e[0m]'
-	else
-		echo -e 'check cctree index          [\e[;31mfail\e[0m]'
-	fi
-}
-
-function file_size() {
 	echo "----------------------------------"
-
-	du -shc ".tags" ".vimproj/" ".filenametags" ".GTAGS"
-
-	#oujf1
-	str=`du -skc ".tags" ".vimproj/" ".filenametags" ".GTAGS"`
-	size=`echo $str | awk '{split($0,str," ");printf "%.2f\n",str[7]/1024}'`
-	echo -e "total size \e[;31m$size\e[0mM"
-
+	if [ -n "$files" ]; then
+		du -shc $files
+		str=`du -skc $files`
+		size=`echo $str | awk -F' ' '{split($0,str," ")}END{printf "%.2f\n",str[NF-1]/1024}'`
+		echo -e "Total size \e[;35m$size\e[0mM"
+	else
+		echo -e "Total size \e[;35m0.00\e[0mM"
+	fi
 	echo "----------------------------------"
 }
 
@@ -256,7 +231,7 @@ case $1 in
 		#create_cscope
 		#create_tags
         create_ftags
-		file_size
+		tag_status
 		;;
 	"a" | "all")
 		create_dir
@@ -264,6 +239,7 @@ case $1 in
 		#create_cscope
 		#create_tags
         create_ftags
+		tag_status
 		;;
 	"g" | "gtags")
 		create_dir
@@ -289,7 +265,6 @@ case $1 in
 		;;
 	"s" | "status")
 		tag_status
-		file_size
 		;;
 	"")
 		error

@@ -59,5 +59,6 @@ cp -rf colors ~/.vim/
 
 cd ~/.vim
 ln -s scripts/tags tag
+ln -s scripts/ktags ktags
 echo "export PATH=~/.vim/:\$PATH" >> ~/.bashrc
 echo "\n configure vimrc done ...\n"

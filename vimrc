@@ -319,7 +319,7 @@ if has("persistent_undo")
     endif
 endif
 
-set nobackup				" no *~ backup files
+set nobackup                " no *~ backup files
 
 " ================================== Keymap ===================================
 
@@ -614,12 +614,12 @@ endif
 let g:NERDTreeWinPos="left"
 let g:NERDTreeWinSize=20
 imap <leader>N <Esc>:NERDTreeToggle<cr>
-nmap <leader>N :NERDTreeToggl<cr>
+nmap <leader>N :NERDTreeToggle<cr>
 
 
 " Powerline.vim
 set laststatus=2   " Always show the statusline
-set t_Co=256	   " Explicitly tell vim that the terminal supports 256 colors
+set t_Co=256       " Explicitly tell vim that the terminal supports 256 colors
 let g:Powerline_symbols = 'unicode'
 let g:Powerline_cache_enabled = 0	" Disable cache file create
 call Pl#Theme#InsertSegment('pwd', 'after', 'mode_indicator')
@@ -655,20 +655,20 @@ set tags=.tags;
 if g:OS#win
     let g:ctags_path=$VIM.'\vimfiles\plugin\ctags.exe'
     let Tlist_Ctags_Cmd=$VIM.'\vimfiles\plugin\ctags.exe'
-	let g:tagbar_ctags_bin=$VIM.'\vimfiles\plugin\ctags.exe'
+    let g:tagbar_ctags_bin=$VIM.'\vimfiles\plugin\ctags.exe'
 else
     let g:ctags_path='/usr/local/bin/ctags'
     let Tlist_Ctags_Cmd= '/usr/local/bin/ctags'
-	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+    let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 endif
 
 let g:tagbar_type_markdown = {
-	\ 'ctagstype' : 'markdown',
-	\ 'kinds' : [
-		\ 'h:header',
-		\ 'i:header',
-		\ 'k:header'
-	\ ],
+    \ 'ctagstype' : 'markdown',
+    \ 'kinds' : [
+        \ 'h:header',
+        \ 'i:header',
+        \ 'k:header'
+    \ ],
     \ 'sort': 0
 \ }
 
