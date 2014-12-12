@@ -59,7 +59,7 @@ function create_cscope() {
 	return 0
 }
 
-function create_tags() {
+function create_ctags() {
 
 	new=y
 
@@ -135,6 +135,16 @@ function create_ftags() {
 	return 0
 }
 
+function create_tag() {
+	if [ -x /usr/local/bin/gtags ]; then
+		echo "Gtags installed."
+		create_gtags
+	else
+		create_cscope
+		create_ctags
+	fi
+}
+
 function create_ccglue() {
 	ccglue -S .vimproj/cscope.out -o .vimproj/cctree.out
 }
@@ -169,14 +179,10 @@ function tag_status() {
 	done
 
 	echo "----------------------------------"
-	if [ -n "$files" ]; then
-		du -shc $files
-		str=`du -skc $files`
-		size=`echo $str | awk -F' ' '{split($0,str," ")}END{printf "%.2f\n",str[NF-1]/1024}'`
-		echo -e "Total size \e[;35m$size\e[0mM"
-	else
-		echo -e "Total size \e[;35m0.00\e[0mM"
-	fi
+	du -shc $files
+	str=`du -skc $files`
+	size=`echo $str | awk -F' ' '{split($0,str," ")}END{printf "%.2f\n",str[NF-1]/1024}'`
+	echo -e "Total size \e[;35m$size\e[0mM"
 	echo "----------------------------------"
 }
 
@@ -190,9 +196,9 @@ function usage() {
 	echo "       n | new     new create cscope and ctags index."
 	echo "       a | all     recreate cscope and ctags index."
 	echo "       cs| cscope  create cscope index."
+	echo "       ct| ctag    create ctags index."
 	echo "       cc| ccglue  create ccglue index."
 	echo "       g | gtags   create gtags index."
-	echo "       t | tag     create ctags index."
 	echo "       f | ftag    filenametags"
 	echo "       c | clean   remove all tags files"
 	echo "       s | status  check tag status"
@@ -227,17 +233,13 @@ case $1 in
 	"n" | "new")
 		remove_file
 		create_dir
-		create_gtags
-		#create_cscope
-		#create_tags
+		create_tag
         create_ftags
 		tag_status
 		;;
 	"a" | "all")
 		create_dir
-		create_gtags
-		#create_cscope
-		#create_tags
+		create_tag
         create_ftags
 		tag_status
 		;;
@@ -252,9 +254,9 @@ case $1 in
 	"cc" | "ccglue")
 		create_ccglue
 		;;
-	"t" | "tag" | "tags")
+	"ct" | "ctag" | "ctags")
 		create_dir
-		create_tags
+		create_ctags
 		;;
 	"f" | "ftag")
 		create_dir
@@ -270,3 +272,4 @@ case $1 in
 		error
 		;;
 esac
+
