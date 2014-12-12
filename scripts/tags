@@ -179,10 +179,14 @@ function tag_status() {
 	done
 
 	echo "----------------------------------"
-	du -shc $files
-	str=`du -skc $files`
-	size=`echo $str | awk -F' ' '{split($0,str," ")}END{printf "%.2f\n",str[NF-1]/1024}'`
-	echo -e "Total size \e[;35m$size\e[0mM"
+	if [ -n "$files" ]; then
+		du -shc $files
+		str=`du -skc $files`
+		size=`echo $str | awk -F' ' '{split($0,str," ")}END{printf "%.2f\n",str[NF-1]/1024}'`
+		echo -e "Total size \e[;35m$size\e[0mM"
+	else
+		echo -e "Total size \e[;35m0.00\e[0mM"
+	fi
 	echo "----------------------------------"
 }
 
