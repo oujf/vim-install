@@ -9,7 +9,7 @@ tar zxf package/ctags-5.8.tar.gz -C .
 tar zxf package/cscope-15.8a.tar.gz -C .
 tar zxf package/global-6.3.3.tar.gz -C .
 tar jxf package/ccglue-release-0.6.0.tar.bz2 -C .
-sudo apt-get install libncurses5-dev
+sudo apt-get install libncurses5-dev lua5.2 liblua5.2-dev
 
 die() {
 	cd $cur_dir
@@ -31,6 +31,7 @@ do
 			--enable-xim \
 			--enable-fontset \
 			--enable-gui=gtk2 \
+			--enable-luainterp=yes \
 			--with-features=huge \
 			--with-x \
 			>/dev/null 2>&1

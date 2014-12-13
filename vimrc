@@ -66,9 +66,6 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'The-NERD-tree'
-"Plugin 'comments.vim'
-"Plugin 'BlockComment.vim'
-"Plugin 'The-NERD-Commenter'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tagbar'
 Plugin 'taglist.vim'
@@ -87,15 +84,23 @@ Plugin 'scrooloose/syntastic'
 Plugin 'grep.vim'
 Plugin 'hari-rangarajan/CCTree'
 Plugin 'cecutil'
-Plugin 'neocomplcache'
 Plugin 'L9'
 Plugin 'FuzzyFinder'
 Plugin 'sudo.vim'
 Plugin 'oujf/cscope_maps'
+if !has('lua')
+	Plugin 'Shougo/neocomplcache.vim'
+else
+	Plugin 'Shougo/neocomplete.vim'
+endif
 "Plugin 'Lokaltog/powerline'
 "Plugin 'honza/vim-snippets'        "snipMate & UltiSnip Snippets
 "Plugin 'CCTree'
 "Plugin 'mru.vim'
+"Plugin 'comments.vim'
+"Plugin 'BlockComment.vim'
+"Plugin 'The-NERD-Commenter'
+"Plugin 'neocomplcache'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -228,8 +233,7 @@ set softtabstop=4            " 使得按退格键时可以一次删掉 4 个空�
                              " “逢[tabstop]空格进1制表符”
 
 au FileType c,cpp,java,php setl expandtab | setl shiftwidth=4 | setl tabstop=4
-au FileType html,javascript setl shiftwidth=2
-au FileType html,javascript setl tabstop=2
+au FileType html,javascript setl softtabstop=2 | setl shiftwidth=2 | setl tabstop=2
 "autocmd FileType html,xhtml,velocity setl softtabstop=2 | setl tabstop=2 | setl shiftwidth=2
 
 
@@ -589,9 +593,6 @@ let MRU_Window_Height = 8
 
 
 " autocomplpop.vim, acp.vim
-"let g:loaded_acp = 0
-" Auto Complete Pop Menu
-" autocomplpop.vim
 " @see http://www.vim.org/scripts/script.php?script_id=1879
 " @see http://hi.baidu.com/timeless/blog/item/cb4478f09a1563ca7931aa5d.html
 " Note: functions and key maps invalid.
@@ -607,6 +608,10 @@ if g:OS#win
 else
     autocmd FileType javascript let g:AutoComplPop_CompleteOption = '.,w,b,u,t,i,k$VIM/vimfiles/dict/javascript.dict'
 endif
+
+
+" --- Shougo/neocomplete.vim & neocomplcache.vim conf.
+" Use bundle/cscope_maps/plugin/neocomplconf.vim
 
 
 " --- NERDTree
