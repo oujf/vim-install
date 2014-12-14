@@ -20,22 +20,23 @@
 " <F9>      Quickfix
 " <F12>     .c --> .h
 " Other:
-" \lk \ll \lw   Lookup
-" <Ctrl-a>      nohl
-" <Ctrl-n>      :cn
-" <Ctrl-p>      :cp
-" \ja           JavaBrowser
-" \be           BufferExplorer
-" \t            TagBar
-" \w            :w!
-" \file         echo filepath
-" \N            NERDTree
-" \t            TagBar
-" \tl           Tlist
-" \g            :Rgrep
-" n\cc          Comments out the current line or text selected in visual mode.
-" n\cu          Uncomments the selected line(s).
-" n\cm          /* Comments */
+" \lk \ll \lw       Lookup
+" <Ctrl-a>          nohl
+" <Ctrl-n>          :cn
+" <Ctrl-p>          :cp
+" <Ctrl-Shift-p>    turn off Auto Pairs
+" \ja               JavaBrowser
+" \be               BufferExplorer
+" \t                TagBar
+" \w                :w!
+" \file             echo filepath
+" \N                NERDTree
+" \t                TagBar
+" \tl               Tlist
+" \g                :Rgrep
+" n\cc              Comments out the current line or text selected in visual mode.
+" n\cu              Uncomments the selected line(s).
+" n\cm              /* Comments */
 "------------------------------------------------------------------------------
 
 
@@ -80,6 +81,7 @@ Plugin 'genutils'
 Plugin 'lookupfile'
 Plugin 'echofunc.vim'
 Plugin 'Mark'
+Plugin 'Auto-Pairs'
 Plugin 'scrooloose/syntastic'
 Plugin 'grep.vim'
 Plugin 'hari-rangarajan/CCTree'
@@ -348,85 +350,94 @@ set pastetoggle=<F3>
 vnoremap  *  y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
-" @see http://blog.hotoo.me/post/vim-autocomplete-pairs
-inoremap ( <c-r>=OpenPair('(')<CR>
-inoremap ) <c-r>=ClosePair(')')<CR>
-inoremap { <c-r>=OpenPair('{')<CR>
-inoremap } <c-r>=ClosePair('}')<CR>
-inoremap [ <c-r>=OpenPair('[')<CR>
-inoremap ] <c-r>=ClosePair(']')<CR>
-" just for xml document, but need not for now.
-"inoremap < <c-r>=OpenPair('<')<CR>
-"inoremap > <c-r>=ClosePair('>')<CR>
-function! OpenPair(char)
-    let PAIRs = {
-                \ '{' : '}',
-                \ '[' : ']',
-                \ '(' : ')',
-                \ '<' : '>'
-                \}
-    if line('$')>2000
-        let line = getline('.')
 
-        let txt = strpart(line, col('.')-1)
-    else
-        let lines = getline(1,line('$'))
-        let line=""
-        for str in lines
-            let line = line . str . "\n"
-        endfor
+" --- Auto Pairs
+if !exists('g:AutoPairsEnable')
+	let g:AutoPairsEnable = 1
+	let g:AutoPairsShortcutToggle = '<C-S-p>'
+end
 
-        let blines = getline(line('.')-1, line("$"))
-        let txt = strpart(getline("."), col('.')-1)
-        for str in blines
-            let txt = txt . str . "\n"
-        endfor
-    endif
-    let oL = len(split(line, a:char, 1))-1
-    let cL = len(split(line, PAIRs[a:char], 1))-1
+if !g:AutoPairsEnable
+	" @see http://blog.hotoo.me/post/vim-autocomplete-pairs
+	inoremap ( <c-r>=OpenPair('(')<CR>
+	inoremap ) <c-r>=ClosePair(')')<CR>
+	inoremap { <c-r>=OpenPair('{')<CR>
+	inoremap } <c-r>=ClosePair('}')<CR>
+	inoremap [ <c-r>=OpenPair('[')<CR>
+	inoremap ] <c-r>=ClosePair(']')<CR>
+	" just for xml document, but need not for now.
+	"inoremap < <c-r>=OpenPair('<')<CR>
+	"inoremap > <c-r>=ClosePair('>')<CR>
+	function! OpenPair(char)
+		let PAIRs = {
+					\ '{' : '}',
+					\ '[' : ']',
+					\ '(' : ')',
+					\ '<' : '>'
+					\}
+		if line('$')>2000
+			let line = getline('.')
 
-    let ol = len(split(txt, a:char, 1))-1
-    let cl = len(split(txt, PAIRs[a:char], 1))-1
+			let txt = strpart(line, col('.')-1)
+		else
+			let lines = getline(1,line('$'))
+			let line=""
+			for str in lines
+				let line = line . str . "\n"
+			endfor
 
-    if oL>=cL || (oL<cL && ol>=cl)
-        return a:char . PAIRs[a:char] . "\<Left>"
-    else
-        return a:char
-    endif
-endfunction
-function! ClosePair(char)
-    if getline('.')[col('.')-1] == a:char
-        return "\<Right>"
-    else
-        return a:char
-    endif
-endf
+			let blines = getline(line('.')-1, line("$"))
+			let txt = strpart(getline("."), col('.')-1)
+			for str in blines
+				let txt = txt . str . "\n"
+			endfor
+		endif
+		let oL = len(split(line, a:char, 1))-1
+		let cL = len(split(line, PAIRs[a:char], 1))-1
 
-inoremap ' <c-r>=CompleteQuote("'")<CR>
-inoremap " <c-r>=CompleteQuote('"')<CR>
-function! CompleteQuote(quote)
-    let ql = len(split(getline('.'), a:quote, 1))-1
-    let slen = len(split(strpart(getline("."), 0, col(".")-1), a:quote, 1))-1
-    let elen = len(split(strpart(getline("."), col(".")-1), a:quote, 1))-1
-    let isBefreQuote = getline('.')[col('.') - 1] == a:quote
+		let ol = len(split(txt, a:char, 1))-1
+		let cl = len(split(txt, PAIRs[a:char], 1))-1
 
-    if '"'==a:quote && "vim"==&ft && 0==match(strpart(getline('.'), 0, col('.')-1), "^[\t ]*$")
-        " for vim comment.
-        return a:quote
-    elseif "'"==a:quote && 0==match(getline('.')[col('.')-2], "[a-zA-Z0-9]")
-        " for Name's Blog.
-        return a:quote
-    elseif (ql%2)==1
-        " a:quote length is odd.
-        return a:quote
-    elseif ((slen%2)==1 && (elen%2)==1 && !isBefreQuote) || ((slen%2)==0 && (elen%2)==0)
-        return a:quote . a:quote . "\<Left>"
-    elseif isBefreQuote
-        return "\<Right>"
-    else
-        return a:quote . a:quote . "\<Left>"
-    endif
-endfunction
+		if oL>=cL || (oL<cL && ol>=cl)
+			return a:char . PAIRs[a:char] . "\<Left>"
+		else
+			return a:char
+		endif
+	endfunction
+	function! ClosePair(char)
+		if getline('.')[col('.')-1] == a:char
+			return "\<Right>"
+		else
+			return a:char
+		endif
+	endf
+
+	inoremap ' <c-r>=CompleteQuote("'")<CR>
+	inoremap " <c-r>=CompleteQuote('"')<CR>
+	function! CompleteQuote(quote)
+		let ql = len(split(getline('.'), a:quote, 1))-1
+		let slen = len(split(strpart(getline("."), 0, col(".")-1), a:quote, 1))-1
+		let elen = len(split(strpart(getline("."), col(".")-1), a:quote, 1))-1
+		let isBefreQuote = getline('.')[col('.') - 1] == a:quote
+
+		if '"'==a:quote && "vim"==&ft && 0==match(strpart(getline('.'), 0, col('.')-1), "^[\t ]*$")
+			" for vim comment.
+			return a:quote
+		elseif "'"==a:quote && 0==match(getline('.')[col('.')-2], "[a-zA-Z0-9]")
+			" for Name's Blog.
+			return a:quote
+		elseif (ql%2)==1
+			" a:quote length is odd.
+			return a:quote
+		elseif ((slen%2)==1 && (elen%2)==1 && !isBefreQuote) || ((slen%2)==0 && (elen%2)==0)
+			return a:quote . a:quote . "\<Left>"
+		elseif isBefreQuote
+			return "\<Right>"
+		else
+			return a:quote . a:quote . "\<Left>"
+		endif
+	endfunction
+endif    "g:AutoPairsEnable
 
 
 " [count]<Space> key in normal model.
