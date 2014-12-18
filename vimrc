@@ -40,8 +40,12 @@
 "------------------------------------------------------------------------------
 
 
+" ================================ configure ==================================
+let g:USE#bundle = 1           " default enable bundle
+let g:powerline#airline = 1    " 1 powerline, 0 airline
+
+
 " ================================== Vundle ===================================
-let g:USE#bundle = 1    "default enable bundle
 if g:USE#bundle         "{{{
 
 " Setting up Vundle - the vim plugin bundler
@@ -65,7 +69,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'Lokaltog/vim-powerline'
 Plugin 'The-NERD-tree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tagbar'
@@ -79,21 +82,31 @@ Plugin 'JavaBrowser'
 Plugin 'snipMate'
 Plugin 'genutils'
 Plugin 'lookupfile'
+Plugin 'DirDiff.vim'
 Plugin 'echofunc.vim'
 Plugin 'Mark'
 Plugin 'Auto-Pairs'
 Plugin 'scrooloose/syntastic'
+Plugin 'godlygeek/tabular'
 Plugin 'grep.vim'
 Plugin 'hari-rangarajan/CCTree'
 Plugin 'cecutil'
 Plugin 'L9'
-Plugin 'FuzzyFinder'
+"Plugin 'FuzzyFinder'
+Plugin 'kien/ctrlp.vim'
 Plugin 'sudo.vim'
 Plugin 'oujf/cscope_maps'
+
 if !has('lua')
-	Plugin 'Shougo/neocomplcache.vim'
+    Plugin 'Shougo/neocomplcache.vim'
 else
-	Plugin 'Shougo/neocomplete.vim'
+    Plugin 'Shougo/neocomplete.vim'
+endif
+
+if g:powerline#airline
+    Plugin 'Lokaltog/vim-powerline'
+else
+    Plugin 'bling/vim-airline'
 endif
 "Plugin 'Lokaltog/powerline'
 "Plugin 'honza/vim-snippets'        "snipMate & UltiSnip Snippets
@@ -603,6 +616,17 @@ let MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'
 let MRU_Window_Height = 8
 
 
+" --- kien/ctrlp.vim
+let g:ctrlp_map = ',,'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
+
+
 " autocomplpop.vim, acp.vim
 " @see http://www.vim.org/scripts/script.php?script_id=1879
 " @see http://hi.baidu.com/timeless/blog/item/cb4478f09a1563ca7931aa5d.html
@@ -633,15 +657,47 @@ imap <leader>N <Esc>:NERDTreeToggle<cr>
 nmap <leader>N :NERDTreeToggle<cr>
 
 
-" Powerline.vim
-set laststatus=2   " Always show the statusline
-set t_Co=256       " Explicitly tell vim that the terminal supports 256 colors
-let g:Powerline_symbols = 'unicode'
-let g:Powerline_cache_enabled = 0	" Disable cache file create
-call Pl#Theme#InsertSegment('pwd', 'after', 'mode_indicator')
+" --- Powerline.vim & airline.vim
+set laststatus=2       " Always show the statusline
+set t_Co=256           " Explicitly tell vim that the terminal supports 256 colors
+
+if g:powerline#airline
+    let g:Powerline_symbols = 'unicode'
+    let g:Powerline_cache_enabled = 0	" Disable cache file create
+    call Pl#Theme#InsertSegment('pwd', 'after', 'mode_indicator')
+else
+    if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
+    endif
+
+    " unicode symbols
+    let g:airline_left_sep = '▶'
+    let g:airline_right_sep = '◀'
+    let g:airline_symbols.linenr = '␊'
+    let g:airline_symbols.linenr = '␤'
+    let g:airline_symbols.branch = '⎇'
+    let g:airline_symbols.paste = 'ρ'
+    let g:airline_symbols.paste = 'Þ'
+    let g:airline_symbols.paste = '∥'
+    let g:airline_symbols.whitespace = 'Ξ'
+
+    "let g:airline#extensions#tabline#enabled = 1
+    "let g:airline#extensions#tabline#left_sep = ' '
+    "let g:airline#extensions#tabline#left_alt_sep = '|'
+    "let g:airline#extensions#tabline#buffer_nr_show = 1
+    "let g:airline#extensions#buffline#enabled = 1
+    "let g:airline#extensions#bufferline#overwrite_variables = 1
+
+    let g:airline_theme = 'powerlineish'
+    let g:airline_section_b = '%{getcwd()}'
+    let g:airline_section_c = '%t'
+    let g:airline#extensions#syntastic#enabled = 0
+    let g:airline#extensions#tagbar#enabled = 1
+    let g:airline#extensions#tagbar#flags = 's'
+endif
 
 
-" Syntastic 语法检查
+" --- Syntastic 语法检查
 if &diff
   let g:loaded_syntastic_plugin = 1
 else
@@ -721,7 +777,7 @@ endif
 
 " --- GTAGS - GNU GLOBAL Source Code Tag System
 if g:cscope_enable == 0
-    let Gtags_Auto_Map = 1
+    let Gtags_Auto_Map = 0
     let GtagsCscope_Auto_Map = 1        " To use the default key/mouse mapping
     let GtagsCscope_Ignore_Case = 1     " To ignore letter case when searching
     let GtagsCscope_Absolute_Path = 1   " To use absolute path name
