@@ -258,7 +258,7 @@ set wildchar=<TAB>          " start wild expansion in the command line using <TA
 set wildmenu                " wild char completion menu
 set wildignore=*.o,*.class,*.pyc
 set showcmd                 " 在状态栏显示目前所执行的指令，未完成的指令片段亦会显示出来
-set history=50              " keep 50 lines of command line history
+set history=100             " keep 100 lines of command line history
 
 set number                  " show linenumber
 set cindent                 " 以C/C++的模式缩进
@@ -565,12 +565,9 @@ imap <C-t> <Esc>:tabnew<cr>
 nmap <C-t> :tabnew<cr>
 imap <C-d> <Esc>:tabclose<cr>
 nmap <C-d> :tabclose<cr>
-"imap <C-S-w> <Esc>:tabonly<cr>
-"nmap <C-S-w> :tabonly<cr>
-"imap <C-S-h> :tabprevious<cr>
-nmap <S-h> :tabprevious<cr>
-"imap <C-S-l> :tabnext<cr>
-nmap <S-l> :tabnext<cr>
+nmap <tab> :tabnext<cr>
+nmap <S-tab> :tabprevious<cr>
+
 if g:OS#mac
     imap <D-1> <Esc>:tabfirst<cr>
     nmap <D-1> :tabfirst<cr>
@@ -631,14 +628,27 @@ let MRU_Window_Height = 8
 
 
 " --- kien/ctrlp.vim
+" @see https://github.com/codepiano/ctrlp.vim/blob/master/doc/ctrlp.cnx
 let g:ctrlp_map = ',,'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_depth = 40
+let g:ctrlp_max_history = &history
+let g:ctrlp_open_new_file = 'v'              " v - in a new vertical split.
+let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_working_path_mode = 'ra'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(exe|so|dll)$',
+    \ }
+let g:ctrlp_user_command = {
+    \ 'types': {
+        \ 1: ['.git', 'cd %s && git ls-files'],
+        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+    \ },
+    \ 'fallback': 'find %s -type f'
+    \ }
 
 
 " autocomplpop.vim, acp.vim
