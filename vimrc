@@ -92,7 +92,7 @@ Plugin 'grep.vim'
 Plugin 'hari-rangarajan/CCTree'
 Plugin 'cecutil'
 Plugin 'L9'
-"Plugin 'FuzzyFinder'
+Plugin 'FuzzyFinder'
 Plugin 'kien/ctrlp.vim'
 Plugin 'sudo.vim'
 Plugin 'oujf/cscope_maps'
@@ -281,6 +281,7 @@ set scrolloff=3             " 设定光标离窗口上下边界 5 行时窗口�
 set warn                    " 对文本进行了新的修改后，离开shell时系统给出显示(缺省)
 set autowrite               " auto writefile when sth happened such as :make or :last or others.See the help
 set autoread                " auto read when file is changed from outside
+set hidden                  " in order to switch between buffers with unsaved change
 "set autochdir              " auto change directory
 
 set showmatch               " Cursor shows matching ) and }
@@ -301,7 +302,7 @@ set splitright                  " 新窗口在当前窗口之右
 
 " Folds.
 set foldmethod=syntax           " 按照语法区域折叠
-set foldlevel=6
+set foldlevel=99
 set foldcolumn=0
 
 
@@ -345,10 +346,9 @@ set nobackup                " no *~ backup files
 " Normal Mode, Visual Mode, and Select Mode,
 " use <Tab> and <Shift-Tab> to indent
 " @see http://c9s.blogspot.com/2007/10/vim-tips.html
-"nmap <tab> v>                  " :h ctrl-i :h <tab>
-"nmap <s-tab> v<
 vmap <tab>   >gv
 vmap <s-tab> <gv
+imap jj      <Esc>
 
 " Fast saving
 map <leader>w :w!<cr>
@@ -366,90 +366,90 @@ vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
 " --- Auto Pairs
 if !exists('g:AutoPairsEnable')
-	let g:AutoPairsEnable = 1
-	let g:AutoPairsShortcutToggle = '<C-S-p>'
+    let g:AutoPairsEnable = 1
+    let g:AutoPairsShortcutToggle = '<C-S-p>'
 end
 
 if !g:AutoPairsEnable
-	" @see http://blog.hotoo.me/post/vim-autocomplete-pairs
-	inoremap ( <c-r>=OpenPair('(')<CR>
-	inoremap ) <c-r>=ClosePair(')')<CR>
-	inoremap { <c-r>=OpenPair('{')<CR>
-	inoremap } <c-r>=ClosePair('}')<CR>
-	inoremap [ <c-r>=OpenPair('[')<CR>
-	inoremap ] <c-r>=ClosePair(']')<CR>
-	" just for xml document, but need not for now.
-	"inoremap < <c-r>=OpenPair('<')<CR>
-	"inoremap > <c-r>=ClosePair('>')<CR>
-	function! OpenPair(char)
-		let PAIRs = {
-					\ '{' : '}',
-					\ '[' : ']',
-					\ '(' : ')',
-					\ '<' : '>'
-					\}
-		if line('$')>2000
-			let line = getline('.')
+    " @see http://blog.hotoo.me/post/vim-autocomplete-pairs
+    inoremap ( <c-r>=OpenPair('(')<CR>
+    inoremap ) <c-r>=ClosePair(')')<CR>
+    inoremap { <c-r>=OpenPair('{')<CR>
+    inoremap } <c-r>=ClosePair('}')<CR>
+    inoremap [ <c-r>=OpenPair('[')<CR>
+    inoremap ] <c-r>=ClosePair(']')<CR>
+    " just for xml document, but need not for now.
+    "inoremap < <c-r>=OpenPair('<')<CR>
+    "inoremap > <c-r>=ClosePair('>')<CR>
+    function! OpenPair(char)
+        let PAIRs = {
+                    \ '{' : '}',
+                    \ '[' : ']',
+                    \ '(' : ')',
+                    \ '<' : '>'
+                    \}
+        if line('$')>2000
+            let line = getline('.')
 
-			let txt = strpart(line, col('.')-1)
-		else
-			let lines = getline(1,line('$'))
-			let line=""
-			for str in lines
-				let line = line . str . "\n"
-			endfor
+            let txt = strpart(line, col('.')-1)
+        else
+            let lines = getline(1,line('$'))
+            let line=""
+            for str in lines
+                let line = line . str . "\n"
+            endfor
 
-			let blines = getline(line('.')-1, line("$"))
-			let txt = strpart(getline("."), col('.')-1)
-			for str in blines
-				let txt = txt . str . "\n"
-			endfor
-		endif
-		let oL = len(split(line, a:char, 1))-1
-		let cL = len(split(line, PAIRs[a:char], 1))-1
+            let blines = getline(line('.')-1, line("$"))
+            let txt = strpart(getline("."), col('.')-1)
+            for str in blines
+                let txt = txt . str . "\n"
+            endfor
+        endif
+        let oL = len(split(line, a:char, 1))-1
+        let cL = len(split(line, PAIRs[a:char], 1))-1
 
-		let ol = len(split(txt, a:char, 1))-1
-		let cl = len(split(txt, PAIRs[a:char], 1))-1
+        let ol = len(split(txt, a:char, 1))-1
+        let cl = len(split(txt, PAIRs[a:char], 1))-1
 
-		if oL>=cL || (oL<cL && ol>=cl)
-			return a:char . PAIRs[a:char] . "\<Left>"
-		else
-			return a:char
-		endif
-	endfunction
-	function! ClosePair(char)
-		if getline('.')[col('.')-1] == a:char
-			return "\<Right>"
-		else
-			return a:char
-		endif
-	endf
+        if oL>=cL || (oL<cL && ol>=cl)
+            return a:char . PAIRs[a:char] . "\<Left>"
+        else
+            return a:char
+        endif
+    endfunction
+    function! ClosePair(char)
+        if getline('.')[col('.')-1] == a:char
+            return "\<Right>"
+        else
+            return a:char
+        endif
+    endf
 
-	inoremap ' <c-r>=CompleteQuote("'")<CR>
-	inoremap " <c-r>=CompleteQuote('"')<CR>
-	function! CompleteQuote(quote)
-		let ql = len(split(getline('.'), a:quote, 1))-1
-		let slen = len(split(strpart(getline("."), 0, col(".")-1), a:quote, 1))-1
-		let elen = len(split(strpart(getline("."), col(".")-1), a:quote, 1))-1
-		let isBefreQuote = getline('.')[col('.') - 1] == a:quote
+    inoremap ' <c-r>=CompleteQuote("'")<CR>
+    inoremap " <c-r>=CompleteQuote('"')<CR>
+    function! CompleteQuote(quote)
+        let ql = len(split(getline('.'), a:quote, 1))-1
+        let slen = len(split(strpart(getline("."), 0, col(".")-1), a:quote, 1))-1
+        let elen = len(split(strpart(getline("."), col(".")-1), a:quote, 1))-1
+        let isBefreQuote = getline('.')[col('.') - 1] == a:quote
 
-		if '"'==a:quote && "vim"==&ft && 0==match(strpart(getline('.'), 0, col('.')-1), "^[\t ]*$")
-			" for vim comment.
-			return a:quote
-		elseif "'"==a:quote && 0==match(getline('.')[col('.')-2], "[a-zA-Z0-9]")
-			" for Name's Blog.
-			return a:quote
-		elseif (ql%2)==1
-			" a:quote length is odd.
-			return a:quote
-		elseif ((slen%2)==1 && (elen%2)==1 && !isBefreQuote) || ((slen%2)==0 && (elen%2)==0)
-			return a:quote . a:quote . "\<Left>"
-		elseif isBefreQuote
-			return "\<Right>"
-		else
-			return a:quote . a:quote . "\<Left>"
-		endif
-	endfunction
+        if '"'==a:quote && "vim"==&ft && 0==match(strpart(getline('.'), 0, col('.')-1), "^[\t ]*$")
+            " for vim comment.
+            return a:quote
+        elseif "'"==a:quote && 0==match(getline('.')[col('.')-2], "[a-zA-Z0-9]")
+            " for Name's Blog.
+            return a:quote
+        elseif (ql%2)==1
+            " a:quote length is odd.
+            return a:quote
+        elseif ((slen%2)==1 && (elen%2)==1 && !isBefreQuote) || ((slen%2)==0 && (elen%2)==0)
+            return a:quote . a:quote . "\<Left>"
+        elseif isBefreQuote
+            return "\<Right>"
+        else
+            return a:quote . a:quote . "\<Left>"
+        endif
+    endfunction
 endif    "g:AutoPairsEnable
 
 
@@ -543,20 +543,34 @@ if g:OS#mac
 endif
 
 
+" fastopen vimrc
+if g:OS#win
+    au! bufwritepost hosts silent !start cmd /C ipconfig /flushdns
+    " @see http://practice.chatserve.com/hosts.html
+    command -nargs=0 Hosts silent tabnew c:\windows\system32\drivers\etc\hosts
+
+    command -nargs=0 Vimrc silent tabnew $VIM/vimfiles/vimrc
+else
+    " readonly.
+    command -nargs=0 Hosts :!sudo gvim /etc/hosts
+
+    command -nargs=0 Vimrc :silent! tabnew ~/.vim/vimrc
+endif
+
 
 " tab navigation & operation like tabs browser
 " @see http://vimcdoc.sourceforge.net/doc/tabpage.html
 " Note: cannot map <C-number> for gvim on window 7.
 imap <C-t> <Esc>:tabnew<cr>
 nmap <C-t> :tabnew<cr>
-"imap <C-w> <Esc>:tabclose<cr> " window shortcut key.
-"nmap <C-w> :tabclose<cr>
+imap <C-d> <Esc>:tabclose<cr>
+nmap <C-d> :tabclose<cr>
 "imap <C-S-w> <Esc>:tabonly<cr>
 "nmap <C-S-w> :tabonly<cr>
-"imap <S-h> :tabnext<cr>
-nmap <S-l> :tabnext<cr>
-"imap <S-l> :tabprevious<cr>
+"imap <C-S-h> :tabprevious<cr>
 nmap <S-h> :tabprevious<cr>
+"imap <C-S-l> :tabnext<cr>
+nmap <S-l> :tabnext<cr>
 if g:OS#mac
     imap <D-1> <Esc>:tabfirst<cr>
     nmap <D-1> :tabfirst<cr>
@@ -663,7 +677,7 @@ set t_Co=256           " Explicitly tell vim that the terminal supports 256 colo
 
 if g:powerline#airline
     let g:Powerline_symbols = 'unicode'
-    let g:Powerline_cache_enabled = 0	" Disable cache file create
+    let g:Powerline_cache_enabled = 0    " Disable cache file create
     call Pl#Theme#InsertSegment('pwd', 'after', 'mode_indicator')
 else
     if !exists('g:airline_symbols')
