@@ -731,8 +731,6 @@ endif
 if &diff
   let g:loaded_syntastic_plugin = 1
 else
-  let g:syntastic_javascript_checkers = ["jshint", "gjslint", "closurecompiler", "jsl"]
-  "let g:syntastic_javascript_jshint_args = '--config'
   let g:syntastic_always_populate_loc_list=1
   let g:syntastic_check_on_open=1
   let g:syntastic_check_on_wq=0
@@ -740,9 +738,9 @@ else
   let g:syntastic_error_symbol='✗'
   let g:syntastic_warning_symbol='⚠'
 
-  highlight SyntasticErrorSign guifg=red guibg=#555555
-  highlight SyntasticWarningSign guifg=yellow guibg=#555555
-  highlight SignColumn guibg=#555555
+  highlight SyntasticErrorSign guifg=white guibg=#555555 ctermfg=white ctermbg=red
+  highlight SyntasticWarningSign guifg=yellow guibg=#555555 ctermfg=Black ctermbg=yellow
+  highlight SignColumn guibg=#555555 ctermbg=Grey
 endif
 
 

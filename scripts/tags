@@ -263,7 +263,6 @@ case $1 in
 		create_ctags
 		;;
 	"f" | "ftag")
-		create_dir
 		create_ftags
 		;;
 	"c" | "clean")
