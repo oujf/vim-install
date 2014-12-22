@@ -615,6 +615,12 @@ endif
 
 " ================================== Plugins ==================================
 
+if filereadable("/usr/bin/ctags")
+    let g:ctags_path = '/usr/bin/ctags'
+elseif filereadable("/usr/local/bin/ctags")
+    let g:ctags_path = '/usr/local/bin/ctags'
+endif
+
 " MRU.vim
 " try for Terminal.
 try
@@ -753,9 +759,8 @@ if g:OS#win
     let Tlist_Ctags_Cmd=$VIM.'\vimfiles\plugin\ctags.exe'
     let g:tagbar_ctags_bin=$VIM.'\vimfiles\plugin\ctags.exe'
 else
-    let g:ctags_path='/usr/local/bin/ctags'
-    let Tlist_Ctags_Cmd= '/usr/local/bin/ctags'
-    let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+    let Tlist_Ctags_Cmd=g:ctags_path
+    let g:tagbar_ctags_bin=g:ctags_path
 endif
 
 let g:tagbar_type_markdown = {
@@ -849,7 +854,7 @@ nnoremap <silent> <C-a> :nohl<cr>
 
 
 " --- JavaBrowser
-let javabrowser_ctags_cmd = '/usr/local/bin/ctags'
+let javabrowser_ctags_cmd = g:ctags_path
 let JavaBrowser_Inc_Winwidth = 0
 nmap <silent> <leader>ja :JavaBrowser<cr>
 
