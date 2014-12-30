@@ -73,7 +73,8 @@ Plugin 'The-NERD-tree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tagbar'
 Plugin 'taglist.vim'
-Plugin 'bufexplorer.zip'
+"Plugin 'bufexplorer.zip'
+Plugin 'jlanzarotta/bufexplorer'
 Plugin 'a.vim'
 Plugin 'c.vim'
 Plugin 'cpp.vim'
@@ -194,7 +195,13 @@ set fileformats=unix,dos,mac
 " theme, skin, color
 " terminal color settings
 if g:OS#gui
-    colo manuscript
+    "colo delek
+    colo desert
+    "colo moria
+    "colo slate
+    "colo wombat256
+    "colo zellner
+    "colo manuscript
 else
     colo oujf
 endif
@@ -219,6 +226,24 @@ elseif g:OS#mac
     set guifont=Sauce\ Code\ Powerline:h14
 
     let g:airline_powerline_fonts = 1
+endif
+
+
+" Toggle Menu and Toolbar
+" @see http://liyanrui.is-programmer.com/articles/1791/gvim-menu-and-toolbar-toggle.html
+if g:OS#gui
+	"set lines=60 columns=90
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=L
+    set guioptions-=r
+    map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+            \set guioptions-=T <Bar>
+            \set guioptions-=m <bar>
+        \else <Bar>
+            \set guioptions+=T <Bar>
+            \set guioptions+=m <Bar>
+        \endif<CR>
 endif
 
 
@@ -732,7 +757,7 @@ if &diff
   let g:loaded_syntastic_plugin = 1
 else
   let g:syntastic_always_populate_loc_list=1
-  let g:syntastic_check_on_open=1
+  let g:syntastic_check_on_open=0
   let g:syntastic_check_on_wq=0
   let g:syntastic_enable_signs=1
   let g:syntastic_error_symbol='✗'
