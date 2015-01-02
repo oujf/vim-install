@@ -14,10 +14,11 @@
 " <F3>      pastetoggle
 " <F4>      :cclose
 " <F5>      Lookup File
-" <F6>      :Gtags -f %
-" <F7>      :GtagsCursor
-" <F8>      :Gozilla
+" <F6>
+" <F7>
+" <F8>
 " <F9>      Quickfix
+" <F10>     NeoCompleteToggle
 " <F12>     .c --> .h
 " Other:
 " \lk \ll \lw       Lookup
@@ -702,6 +703,7 @@ endif
 
 " --- Shougo/neocomplete.vim & neocomplcache.vim conf.
 " Use bundle/cscope_maps/plugin/neocomplconf.vim
+map <silent> <F10> :NeoCompleteToggle<CR>
 
 
 " --- NERDTree
