@@ -35,14 +35,13 @@ hi FoldColumn   cterm=NONE      ctermfg=darkgrey        ctermbg=NONE            
 hi Folded       cterm=NONE      ctermfg=darkgrey        ctermbg=NONE            gui=NONE    guifg=gold          guibg=grey30
 hi IncSearch    cterm=NONE      ctermfg=yellow          ctermbg=green           gui=NONE    guifg=slategrey     guibg=khaki
 hi Ignore       cterm=bold      ctermfg=darkgrey                                gui=NONE    guifg=grey40
-hi LineNr       cterm=NONE      ctermfg=Brown           ctermbg=NONE            gui=NONE    guifg=Brown         guibg=NONE
+hi LineNr       cterm=NONE      ctermfg=3           ctermbg=NONE            gui=NONE    guifg=grey50        guibg=NONE
 hi ModeMsg      cterm=NONE      ctermfg=brown                                   gui=bold    guifg=goldenrod
 hi MoreMsg      cterm=NONE      ctermfg=DarkGreen                               gui=bold    guifg=SeaGreen
 hi NonText      cterm=bold      ctermfg=darkblue                                gui=bold    guifg=LightBlue     guibg=grey30
 hi Pmenu        cterm=NONE                                                      gui=NONE                        guibg=LightBlue
 hi PmenuSel     cterm=NONE      ctermfg=White           ctermbg=DarkBlue        gui=NONE    guifg=White         guibg=DarkBlue
 hi Question     cterm=NONE      ctermfg=Green                                   gui=bold    guifg=springgreen
-hi Search       cterm=NONE      ctermfg=grey           ctermbg=blue             gui=NONE    guibg=peru          guifg=wheat
 hi SpecialKey   cterm=NONE      ctermfg=darkgreen                               gui=NONE    guifg=yellowgreen
 hi StatusLine   cterm=reverse,bold                                              gui=NONE    guibg=#c2bfa5 guifg=black
 hi StatusLineNC cterm=reverse                                                   gui=NONE    guibg=#c2bfa5 guifg=grey50
@@ -52,15 +51,27 @@ hi Visual       cterm=reverse   ctermbg=NONE                                    
 hi VisualNOS    cterm=underline,bold                                            gui=underline,bold
 hi WarningMsg   cterm=NONE      ctermfg=1                                       gui=NONE    guifg=salmon
 hi WildMenu     cterm=NONE      ctermfg=Black           ctermbg=Yellow          gui=NONE    guibg=Yellow        guifg=Black
+if &background == "light"
+    hi Search                   ctermfg=NONE	        ctermbg=Yellow                      guibg=Yellow        guifg=NONE
+else
+    "hi Search                   ctermfg=Black	        ctermbg=Yellow                      guibg=Yellow        guifg=Black
+    hi Search                   ctermfg=grey	        ctermbg=blue                        guibg=peru          guifg=wheat
+endif
 
 " syntax highlighting
-hi Comment      cterm=NONE      ctermfg=DarkGreen                               gui=NONE    guifg=SkyBlue
+hi String       cterm=NONE      ctermfg=darkcyan                                gui=NONE    guifg=SkyBlue
+hi Comment      cterm=NONE      ctermfg=DarkGreen                               gui=NONE    guifg=LightBlue
 hi Constant     cterm=NONE      ctermfg=DarkRed                                 gui=NONE    guifg=#ffa0a0
-hi Identifier   cterm=NONE      ctermfg=DarkCyan                                gui=NONE    guifg=palegreen
-hi PreProc      cterm=NONE      ctermfg=DarkMagenta                             gui=NONE    guifg=indianred
 hi Special      cterm=NONE      ctermfg=DarkYellow                              gui=NONE    guifg=navajowhite
+hi Identifier   cterm=NONE      ctermfg=DarkCyan                                gui=NONE    guifg=palegreen
+hi Include      cterm=NONE      ctermfg=red                                     gui=NONE    guifg=lightred
+hi PreProc      cterm=NONE      ctermfg=DarkMagenta                             gui=NONE    guifg=indianred
+hi Operator     cterm=NONE      ctermfg=Red                                     gui=NONE    guifg=Red
+hi Define       cterm=NONE      ctermfg=yellow                                  gui=bold    guifg=gold
 hi Statement    cterm=bold      ctermfg=Blue                                    gui=bold    guifg=khaki
-hi Type         cterm=NONE      ctermfg=DarkBlue                                gui=NONE    guifg=darkkhaki
-hi Todo                                                                                     guifg=orangered     guibg=yellow2
+hi Type         cterm=NONE      ctermfg=DarkBlue                                gui=bold    guifg=darkkhaki
+hi Function     cterm=NONE      ctermfg=brown                                   gui=bold    guifg=navajowhite
+hi Structure    cterm=NONE      ctermfg=green                                   gui=NONE    guifg=green
+hi Todo                                                                         gui=NONE    guifg=orangered     guibg=yellow2
 
 "vim: sw=4

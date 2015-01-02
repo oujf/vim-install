@@ -57,6 +57,6 @@ hi Identifier   cterm=NONE      ctermfg=DarkCyan                                
 hi PreProc      cterm=NONE      ctermfg=DarkMagenta                             gui=NONE    guifg=DarkMagenta
 hi Special      cterm=NONE      ctermfg=DarkYellow                              gui=NONE    guifg=DarkYellow
 hi Statement    cterm=bold      ctermfg=Blue                                    gui=bold    guifg=Blue
-hi Type         cterm=NONE      ctermfg=DarkBlue                                gui=NONE    guifg=DarkBlue
+hi Type         cterm=NONE      ctermfg=DarkBlue                                gui=bold    guifg=Blue
 
 "vim: sw=2

@@ -200,11 +200,8 @@ if g:OS#gui
     "colo olight
     "colo delek
     "colo desert
-    "colo moria
     "colo slate
-    "colo wombat256
     "colo zellner
-    "colo manuscript
 else
     colo olight
 endif
