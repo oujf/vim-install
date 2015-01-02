@@ -1,6 +1,6 @@
 " Vim color file
-" Maintainer:	oujf <oujf@outlook.com>
-" Last Change:	$Date: 2015/01/01 11:11:11 $
+" Maintainer:   oujf <oujf@outlook.com>
+" Last Change:  $Date: 2015/01/01 11:11:11 $
 
 " cool help screens
 " :he group-name
@@ -13,14 +13,14 @@ if version > 580
     " complaining
     hi clear
     if exists("syntax_on")
-	syntax reset
+        syntax reset
     endif
 endif
 let g:colors_name="odark"
 
 " Normal should come first
-hi Normal	    guifg=White         guibg=grey20
-hi Cursor	    guibg=khaki         guifg=slategrey
+hi Normal       guifg=White         guibg=grey20
+hi Cursor       guibg=khaki         guifg=slategrey
 hi lCursor      guifg=NONE          guibg=Cyan
 
 
@@ -33,8 +33,8 @@ hi Directory    cterm=NONE      ctermfg=DarkBlue        ctermbg=NONE            
 hi ErrorMsg     cterm=NONE      ctermfg=White           ctermbg=DarkRed         gui=NONE    guifg=White         guibg=DarkRed
 hi FoldColumn   cterm=NONE      ctermfg=darkgrey        ctermbg=NONE            gui=NONE    guifg=tan           guibg=grey30
 hi Folded       cterm=NONE      ctermfg=darkgrey        ctermbg=NONE            gui=NONE    guifg=gold          guibg=grey30
-hi IncSearch	cterm=NONE      ctermfg=yellow          ctermbg=green           gui=NONE    guifg=slategrey     guibg=khaki
-hi Ignore	    cterm=bold      ctermfg=darkgrey                                gui=NONE    guifg=grey40
+hi IncSearch    cterm=NONE      ctermfg=yellow          ctermbg=green           gui=NONE    guifg=slategrey     guibg=khaki
+hi Ignore       cterm=bold      ctermfg=darkgrey                                gui=NONE    guifg=grey40
 hi LineNr       cterm=NONE      ctermfg=Brown           ctermbg=NONE            gui=NONE    guifg=Brown         guibg=NONE
 hi ModeMsg      cterm=NONE      ctermfg=brown                                   gui=bold    guifg=goldenrod
 hi MoreMsg      cterm=NONE      ctermfg=DarkGreen                               gui=bold    guifg=SeaGreen
@@ -61,6 +61,6 @@ hi PreProc      cterm=NONE      ctermfg=DarkMagenta                             
 hi Special      cterm=NONE      ctermfg=DarkYellow                              gui=NONE    guifg=navajowhite
 hi Statement    cterm=bold      ctermfg=Blue                                    gui=bold    guifg=khaki
 hi Type         cterm=NONE      ctermfg=DarkBlue                                gui=NONE    guifg=darkkhaki
-hi Todo		                                                                                guifg=orangered     guibg=yellow2
+hi Todo                                                                                     guifg=orangered     guibg=yellow2
 
 "vim: sw=4
