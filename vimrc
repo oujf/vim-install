@@ -97,6 +97,7 @@ Plugin 'FuzzyFinder'
 Plugin 'kien/ctrlp.vim'
 Plugin 'sudo.vim'
 Plugin 'oujf/cscope_maps'
+Plugin 'wmanley/git-meld'
 
 if !has('lua')
     Plugin 'Shougo/neocomplcache.vim'
@@ -195,15 +196,17 @@ set fileformats=unix,dos,mac
 " theme, skin, color
 " terminal color settings
 if g:OS#gui
+    colo odark
+    "colo olight
     "colo delek
-    colo desert
+    "colo desert
     "colo moria
     "colo slate
     "colo wombat256
     "colo zellner
     "colo manuscript
 else
-    colo oujf
+    colo olight
 endif
 
 
@@ -266,15 +269,15 @@ endif
 
 
 " Tabs
-set noexpandtab
+set noexpandtab              " expandtab => Tab 转成空格
 set tabstop=4                " 设定 tab 长度为 4 个空格
 set shiftwidth=4             " 设定 << 和 >> 命令移动时的宽度为 4
 set softtabstop=4            " 使得按退格键时可以一次删掉 4 个空格,不足 4 个时删掉所有剩下的空格
                              " “逢[tabstop]空格进1制表符”
 
-au FileType c,cpp,java,php setl expandtab | setl shiftwidth=4 | setl tabstop=4
-au FileType html,javascript setl softtabstop=2 | setl shiftwidth=2 | setl tabstop=2
-"autocmd FileType html,xhtml,velocity setl softtabstop=2 | setl tabstop=2 | setl shiftwidth=2
+au FileType c,cpp,java,php,vim setl expandtab            | setl shiftwidth=4 | setl tabstop=4
+au FileType html,javascript    setl softtabstop=2        | setl shiftwidth=2 | setl tabstop=2
+"autocmd FileType html,xhtml,velocity setl softtabstop=2 | setl tabstop=2    | setl shiftwidth=2
 
 
 " ignore these files while expanding wild chars
