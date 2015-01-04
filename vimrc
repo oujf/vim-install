@@ -663,9 +663,13 @@ let MRU_Window_Height = 8
 " @see https://github.com/codepiano/ctrlp.vim/blob/master/doc/ctrlp.cnx
 let g:ctrlp_map = ',,'
 let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_max_files = 0
+let g:ctrlp_max_files = 50000
 let g:ctrlp_max_depth = 40
 let g:ctrlp_max_history = &history
+let g:ctrlp_use_caching = 1
+let g:ctrlp_clear_cache_on_exit = 1
+let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:50'
 let g:ctrlp_open_new_file = 'v'              " v - in a new vertical split.
 let g:ctrlp_open_multiple_files = 'v'
 let g:ctrlp_working_path_mode = 'ra'
