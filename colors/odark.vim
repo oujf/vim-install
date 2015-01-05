@@ -29,7 +29,7 @@ hi DiffAdd      cterm=NONE      ctermfg=White           ctermbg=Blue            
 hi DiffChange   cterm=NONE      ctermfg=NONE            ctermbg=LightMagenta    gui=NONE    guifg=NONE          guibg=darkmagenta
 hi DiffDelete   cterm=NONE      ctermfg=White           ctermbg=LightGreen      gui=NONE    guifg=White         guibg=darkcyan
 hi DiffText     cterm=bold      ctermfg=White           ctermbg=Red             gui=bold    guifg=White         guibg=olivedrab
-hi Directory    cterm=NONE      ctermfg=DarkBlue        ctermbg=NONE            gui=NONE    guifg=DarkBlue      guibg=NONE
+hi Directory    cterm=NONE      ctermfg=DarkBlue        ctermbg=NONE            gui=NONE    guifg=palegreen     guibg=NONE
 hi ErrorMsg     cterm=NONE      ctermfg=White           ctermbg=DarkRed         gui=NONE    guifg=White         guibg=DarkRed
 hi FoldColumn   cterm=NONE      ctermfg=darkgrey        ctermbg=NONE            gui=NONE    guifg=tan           guibg=grey30
 hi Folded       cterm=NONE      ctermfg=darkgrey        ctermbg=NONE            gui=NONE    guifg=gold          guibg=grey30
@@ -39,12 +39,12 @@ hi LineNr       cterm=NONE      ctermfg=3               ctermbg=NONE            
 hi ModeMsg      cterm=NONE      ctermfg=brown                                   gui=bold    guifg=goldenrod
 hi MoreMsg      cterm=NONE      ctermfg=DarkGreen                               gui=bold    guifg=SeaGreen
 hi NonText      cterm=bold      ctermfg=darkblue                                gui=bold    guifg=LightBlue     guibg=grey30
-hi Pmenu        cterm=NONE                                                      gui=NONE                        guibg=LightBlue
-hi PmenuSel     cterm=NONE      ctermfg=White           ctermbg=DarkBlue        gui=NONE    guifg=White         guibg=DarkBlue
+hi Pmenu        cterm=NONE                                                      gui=NONE    guifg=grey30        guibg=lightmagenta
+hi PmenuSel     cterm=NONE      ctermfg=White           ctermbg=DarkBlue        gui=NONE    guifg=grey20        guibg=lightblue
 hi Question     cterm=NONE      ctermfg=Green                                   gui=bold    guifg=springgreen
 hi SpecialKey   cterm=NONE      ctermfg=darkgreen                               gui=NONE    guifg=yellowgreen
-hi StatusLine   cterm=reverse,bold                                              gui=NONE    guibg=#c2bfa5 guifg=black
-hi StatusLineNC cterm=reverse                                                   gui=NONE    guibg=#c2bfa5 guifg=grey50
+hi StatusLine   cterm=reverse,bold                                              gui=NONE    guibg=#c2bfa5       guifg=black
+hi StatusLineNC cterm=reverse                                                   gui=NONE    guibg=#c2bfa5       guifg=grey50
 hi Title        cterm=NONE      ctermfg=5                                       gui=bold    guifg=indianred
 hi VertSplit    cterm=reverse                                                   gui=NONE    guifg=grey50        guibg=#c2bfa5
 hi Visual       cterm=reverse   ctermbg=NONE                                    gui=NONE    guifg=khaki         guibg=olivedrab

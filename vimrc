@@ -10,15 +10,15 @@
 "------------------------------------------------------------------------------
 " HotKey
 " Fn:
-" <F2>      :copen
+" <F2>
 " <F3>      pastetoggle
-" <F4>      :cclose
+" <F4>      tabclose
 " <F5>      Lookup File
 " <F6>
 " <F7>
 " <F8>
 " <F9>      Quickfix
-" <F10>     NeoCompleteToggle
+" <F10>     NeoCompleteToggle or NeoComplCacheToggle
 " <F12>     .c --> .h
 " Other:
 " \lk \ll \lw       Lookup
@@ -100,7 +100,7 @@ Plugin 'sudo.vim'
 Plugin 'oujf/cscope_maps'
 Plugin 'wmanley/git-meld'
 
-if !has('lua')
+if !(has('lua') && (v:version > 703 || v:version == 703 && has('patch885')))
     Plugin 'Shougo/neocomplcache.vim'
 else
     Plugin 'Shougo/neocomplete.vim'
@@ -227,6 +227,9 @@ elseif g:OS#mac
     set guifont=Sauce\ Code\ Powerline:h14
 
     let g:airline_powerline_fonts = 1
+elseif g:OS#unix && g:OS#gui
+    set guifont=Ubuntu\ Mono\ 13
+    "set guifont=DejaVu\ Sans\ Mono\ 12
 endif
 
 
@@ -589,8 +592,8 @@ endif
 " Note: cannot map <C-number> for gvim on window 7.
 imap <C-t> <Esc>:tabnew<cr>
 nmap <C-t> :tabnew<cr>
-imap <C-d> <Esc>:tabclose<cr>
-nmap <C-d> :tabclose<cr>
+imap <F4> <Esc>:tabclose<cr>
+nmap <F4> :tabclose<cr>
 nmap <tab> :tabnext<cr>
 nmap <S-tab> :tabprevious<cr>
 
@@ -707,7 +710,13 @@ endif
 
 " --- Shougo/neocomplete.vim & neocomplcache.vim conf.
 " Use bundle/cscope_maps/plugin/neocomplconf.vim
-map <silent> <F10> :NeoCompleteToggle<CR>
+if !(has('lua') && (v:version > 703 || v:version == 703 && has('patch885')))
+    imap <silent> <F10> <Esc>:NeoComplCacheToggle<CR>
+    nmap <silent> <F10> :NeoComplCacheToggle<CR>
+else
+    imap <silent> <F10> <Esc>:NeoCompleteToggle<CR>
+    nmap <silent> <F10> :NeoCompleteToggle<CR>
+endif
 
 
 " --- NERDTree
