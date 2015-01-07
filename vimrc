@@ -236,7 +236,8 @@ endif
 " Toggle Menu and Toolbar
 " @see http://liyanrui.is-programmer.com/articles/1791/gvim-menu-and-toolbar-toggle.html
 if g:OS#gui
-	"set lines=60 columns=90
+    "set lines=60 columns=90
+    set gcr=n:blinkwait700-blinkon2000-blinkoff1000
     set guioptions-=m
     set guioptions-=T
     set guioptions-=L
@@ -276,8 +277,9 @@ set shiftwidth=4             " 设定 << 和 >> 命令移动时的宽度为 4
 set softtabstop=4            " 使得按退格键时可以一次删掉 4 个空格,不足 4 个时删掉所有剩下的空格
                              " “逢[tabstop]空格进1制表符”
 
-au FileType c,cpp,java,php,vim setl expandtab            | setl shiftwidth=4 | setl tabstop=4
-au FileType html,javascript    setl softtabstop=2        | setl shiftwidth=2 | setl tabstop=2
+au FileType c                   setl softtabstop=4       | setl shiftwidth=4 | setl tabstop=4
+au FileType cpp,java,php,vim    setl expandtab           | setl shiftwidth=4 | setl tabstop=4
+au FileType html,javascript     setl softtabstop=2       | setl shiftwidth=2 | setl tabstop=2
 "autocmd FileType html,xhtml,velocity setl softtabstop=2 | setl tabstop=2    | setl shiftwidth=2
 
 
@@ -579,11 +581,12 @@ if g:OS#win
     command -nargs=0 Hosts silent tabnew c:\windows\system32\drivers\etc\hosts
 
     command -nargs=0 Vimrc silent tabnew $VIM/vimfiles/vimrc
+    command -nargs=0 Color silent tabnew $VIM/vimfiles/colors/odark.vim
 else
     " readonly.
     command -nargs=0 Hosts :!sudo gvim /etc/hosts
-
     command -nargs=0 Vimrc :silent! tabnew ~/.vim/vimrc
+    command -nargs=0 Color :silent! tabnew ~/.vim/colors/odark.vim
 endif
 
 

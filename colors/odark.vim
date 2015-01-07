@@ -20,7 +20,7 @@ let g:colors_name="odark"
 
 " Normal should come first
 hi Normal       ctermfg=LightGray   ctermbg=Black       guifg=White             guibg=grey20
-hi Cursor       guibg=khaki         guifg=slategrey
+hi Cursor       guifg=slategrey     guibg=khaki
 hi lCursor      guifg=NONE          guibg=Cyan
 
 
@@ -38,7 +38,7 @@ hi Ignore       cterm=bold      ctermfg=darkgrey                                
 hi LineNr       cterm=NONE      ctermfg=3               ctermbg=NONE            gui=NONE    guifg=grey50        guibg=NONE
 hi ModeMsg      cterm=NONE      ctermfg=brown                                   gui=bold    guifg=goldenrod
 hi MoreMsg      cterm=NONE      ctermfg=DarkGreen                               gui=bold    guifg=SeaGreen
-hi NonText      cterm=bold      ctermfg=darkblue                                gui=bold    guifg=LightBlue     guibg=grey30
+hi NonText      cterm=bold      ctermfg=darkblue                                gui=bold    guifg=grey50        guibg=grey20
 hi Pmenu        cterm=NONE                                                      gui=NONE    guifg=grey30        guibg=lightmagenta
 hi PmenuSel     cterm=NONE      ctermfg=White           ctermbg=DarkBlue        gui=NONE    guifg=grey20        guibg=lightblue
 hi Question     cterm=NONE      ctermfg=Green                                   gui=bold    guifg=springgreen
