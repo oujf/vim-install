@@ -72,7 +72,8 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'The-NERD-tree'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'tagbar'
+"Plugin 'tagbar'
+Plugin 'majutsushi/tagbar'
 Plugin 'taglist.vim'
 "Plugin 'bufexplorer.zip'
 Plugin 'jlanzarotta/bufexplorer'
@@ -819,15 +820,21 @@ let g:ctags_args=1
 let g:Tlist_Use_Right_Window=1
 let g:Tlist_Show_One_File = 1
 let g:Tlist_Exit_OnlyWindow = 1
-let g:Tlist_WinWidth=50
+let g:Tlist_WinWidth=35
 nmap <leader>tl :TlistToggle<CR>
 
+let g:tagbar_iconchars = ['▷', '◢']
 let g:tagbar_left = 1               "窗口显示在左边
 let g:tagbar_width = 30             "窗口宽度
 let g:tagbar_autofocus = 1          "启动后光标focus到窗口
 let g:tagbar_sort = 0               "启动时不自动按name排序，以出现的先后顺序排列，s<CR>可以手动按name排序
+let g:tagbar_autopreview = 1
 "let g:tagbar_autoshowtag = 1
+let g:tagbar_previewwin_pos = "aboveleft"
 nmap <leader>t :TagbarToggle<CR>
+autocmd FileType c,cpp nested :TagbarOpen
+autocmd FileType c,cpp let g:tagbar_autofocus = 0
+
 
 " --- choose cscope or gtags
 if filereadable("/usr/bin/gtags") ||
