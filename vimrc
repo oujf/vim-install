@@ -42,8 +42,8 @@
 
 
 " ================================ configure ==================================
-let g:USE#bundle = 1           " default enable bundle
-let g:powerline#airline = 1    " 1 powerline, 0 airline
+let g:USE#bundle = 1                    " default enable bundle
+let g:powerline#airline = "powerline"   " powerline, airline
 
 
 " ================================== Vundle ===================================
@@ -100,6 +100,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'sudo.vim'
 Plugin 'oujf/cscope_maps'
 Plugin 'wmanley/git-meld'
+Plugin 'tomasr/molokai'
 
 if !(has('lua') && (v:version > 703 || v:version == 703 && has('patch885')))
     Plugin 'Shougo/neocomplcache.vim'
@@ -107,13 +108,13 @@ else
     Plugin 'Shougo/neocomplete.vim'
 endif
 
-if g:powerline#airline
+if g:powerline#airline == "powerline"
     Plugin 'Lokaltog/vim-powerline'
 else
     Plugin 'bling/vim-airline'
 endif
-"Plugin 'Lokaltog/powerline'
-"Plugin 'honza/vim-snippets'        "snipMate & UltiSnip Snippets
+"Plugin 'powerline/powerline'       " depend python
+"Plugin 'honza/vim-snippets'        " snipMate & UltiSnip Snippets
 "Plugin 'CCTree'
 "Plugin 'mru.vim'
 "Plugin 'comments.vim'
@@ -735,7 +736,7 @@ nmap <leader>N :NERDTreeToggle<cr>
 set laststatus=2       " Always show the statusline
 set t_Co=256           " Explicitly tell vim that the terminal supports 256 colors
 
-if g:powerline#airline
+if g:powerline#airline == "powerline"
     let g:Powerline_symbols = 'unicode'
     let g:Powerline_cache_enabled = 0    " Disable cache file create
     call Pl#Theme#InsertSegment('pwd', 'after', 'mode_indicator')
@@ -832,8 +833,11 @@ let g:tagbar_autopreview = 1
 "let g:tagbar_autoshowtag = 1
 let g:tagbar_previewwin_pos = "aboveleft"
 nmap <leader>t :TagbarToggle<CR>
-autocmd FileType c,cpp nested :TagbarOpen
-autocmd FileType c,cpp let g:tagbar_autofocus = 0
+
+if !&diff
+    autocmd FileType c,cpp nested :TagbarOpen
+    autocmd FileType c,cpp let g:tagbar_autofocus = 0
+endif
 
 
 " --- choose cscope or gtags
