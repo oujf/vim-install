@@ -10,6 +10,7 @@ tar zxf package/cscope-15.8a.tar.gz -C .
 tar zxf package/global-6.3.3.tar.gz -C .
 tar jxf package/ccglue-release-0.6.0.tar.bz2 -C .
 sudo apt-get install libncurses5-dev lua5.2 liblua5.2-dev
+#sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev ruby-dev mercurial lua5.2 liblua5.2-dev
 
 die() {
 	cd $cur_dir
@@ -32,6 +33,10 @@ do
 			--enable-fontset \
 			--enable-gui=gtk2 \
 			--enable-luainterp=yes \
+			--enable-rubyinterp=yes \
+			--enable-perlinterp \
+			--enable-pythoninterp \
+			--with-python-config-dir=/usr/lib/python2.7/config-i386-linux-gnu/ \
 			--with-features=huge \
 			--with-x \
 			>/dev/null 2>&1
@@ -46,9 +51,6 @@ do
 	echo " install $package done ...\n"
 done
 
-sudo rm -rf /usr/bin/vi
-sudo ln -s /usr/bin/vim /usr/bin/vi
-
 
 # create .vim folder and copy vimrc
 [ ! -e "$HOME/.vim" ] && mkdir -p ~/.vim/
@@ -61,5 +63,8 @@ cp -rf colors ~/.vim/
 cd ~/.vim
 ln -s scripts/tags tag
 ln -s scripts/ktags ktags
+echo "alias vi='vim'" >> ~/.bashrc
+echo "alias e='vim'" >> ~/.bashrc
+echo "alias g='gvim'" >> ~/.bashrc
 echo "export PATH=~/.vim/:\$PATH" >> ~/.bashrc
 echo "\n configure vimrc done ...\n"
