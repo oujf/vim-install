@@ -101,6 +101,7 @@ Plugin 'sudo.vim'
 Plugin 'oujf/cscope_maps'
 Plugin 'wmanley/git-meld'
 Plugin 'tomasr/molokai'
+Plugin 'ntpeters/vim-better-whitespace'
 
 if !(has('lua') && (v:version > 703 || v:version == 703 && has('patch885')))
     Plugin 'Shougo/neocomplcache.vim'
@@ -175,14 +176,20 @@ endif
 set shortmess=atI
 
 " encoding
-set encoding=utf-8     " Necessary to show unicode glyphs
-set termencoding=utf-8
-set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,cp936,gb2312,gb18030,gbk,big5,euc-jp,euc-kr,latin1
 set langmenu=zh_CN.utf-8
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
-language messages zh_CN.UTF-8
+set encoding=utf-8     " Necessary to show unicode glyphs
+set fileencodings=ucs-bom,utf-8,cp936,gb2312,gb18030,gbk,big5,euc-jp,euc-kr,latin1
+if has("win32") || g:OS#win
+    set fileencoding=chinese
+    " fix menu gibberish
+    source $VIMRUNTIME/delmenu.vim
+    source $VIMRUNTIME/menu.vim
+    " fix console gibberish
+    language messages zh_CN.utf-8
+else
+    set termencoding=utf-8
+    set fileencoding=utf-8
+endif
 
 
 syntax on
@@ -208,6 +215,9 @@ if g:OS#gui
 else
     colo olight
 endif
+
+let g:molokai_original = 0
+colorscheme molokai
 
 
 " @see :help mbyte-IME
@@ -384,7 +394,8 @@ vmap <s-tab> <gv
 imap jj      <Esc>
 
 " Fast saving
-map <leader>w :w!<cr>
+map <leader>w :StripWhitespace<cr>
+"map <leader>w :w!<cr>
 map <c-s> <Esc>:w !sudo tee %
 " Copypath
 map <leader>file :echo expand("%:p")<cr>
@@ -925,24 +936,22 @@ let tlist_javascript_settings = 'javascript;f:Functions;c:Classes;o:Objects'
 " Remove trailing whitespace when writing a buffer, but not for diff files.
 " From: Vigil
 " @see http://blog.bs2.to/post/EdwardLee/17961
-function! RemoveTrailingWhitespace()
+function! DeleteWhitespaceBlankline()
     if &ft != "diff"
         let b:curcol = col(".")
         let b:curline = line(".")
-        silent! %s/\s\+$//              " Remove spaces and tabs from end of every line
+        "silent! %s/\s\+$//              " Remove spaces and tabs from end of every line
         silent! %s/\n\{5,\}/\r\r/       " Merge blank lines, than 3 line.
         "silent! g/^\s*$/d               " Remove blank line
-        "silent! %s/\(\s*\n\)\+\%$//    " Remove last blank line
+        "silent! %s/\(\s*\n\)\+\%$//     " Remove last blank line
         call cursor(b:curline, b:curcol)
     endif
 endfunction
-autocmd BufWritePre * call RemoveTrailingWhitespace()
+autocmd BufWritePre * call DeleteWhitespaceBlankline()
 
-highlight TabSpace ctermbg=green guibg=green
-syntax match TabSpace /\t/
-" 显示行尾的空格
-highlight WhitespaceEOL ctermbg=yellow guibg=yellow
-syntax match WhitespaceEOL /\s\+$/
+" use ntpeters/vim-better-whitespace
+"autocmd FileType c,cpp,java,html autocmd BufWritePre * StripWhitespace
+highlight ExtraWhitespace ctermbg=red   guibg=brown
 
 
 " auto reload vimrc when editing it
