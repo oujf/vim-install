@@ -102,6 +102,7 @@ Plugin 'oujf/cscope_maps'
 Plugin 'wmanley/git-meld'
 Plugin 'tomasr/molokai'
 Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'abijr/colorpicker'
 
 if !(has('lua') && (v:version > 703 || v:version == 703 && has('patch885')))
     Plugin 'Shougo/neocomplcache.vim'
@@ -347,6 +348,8 @@ set splitright                  " 新窗口在当前窗口之右
 set foldmethod=syntax           " 按照语法区域折叠
 set foldlevel=99
 set foldcolumn=0
+set foldopen-=search            " dont open folds when I search into thm
+set foldopen-=undo              " dont open folds when I undo stuff
 
 
 " column.
@@ -847,6 +850,7 @@ nmap <leader>t :TagbarToggle<CR>
 
 if !&diff
     autocmd FileType c,cpp nested :TagbarOpen
+    autocmd FileType c,cpp nested :JavaBrowser
     autocmd FileType c,cpp let g:tagbar_autofocus = 0
 endif
 
