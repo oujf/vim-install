@@ -28,7 +28,6 @@
 " <Ctrl-Shift-p>    turn off Auto Pairs
 " \ja               JavaBrowser
 " \be               BufferExplorer
-" \t                TagBar
 " \w                :w!
 " \file             echo filepath
 " \N                NERDTree
@@ -845,14 +844,13 @@ let g:tagbar_left = 1               "窗口显示在左边
 let g:tagbar_width = g:WinWidth     "窗口宽度
 let g:tagbar_autofocus = 1          "启动后光标focus到窗口
 let g:tagbar_sort = 0               "启动时不自动按name排序，以出现的先后顺序排列，s<CR>可以手动按name排序
-let g:tagbar_autopreview = 1
+let g:tagbar_autopreview = 1        "显示预览窗口
 "let g:tagbar_autoshowtag = 1
-let g:tagbar_previewwin_pos = "aboveleft"
+let g:tagbar_previewwin_pos = "aboveright"
 nmap <leader>t :TagbarToggle<CR>
 
 if !&diff
     autocmd FileType c,cpp nested :TagbarOpen
-    autocmd FileType c,cpp nested :JavaBrowser
     autocmd FileType c,cpp let g:tagbar_autofocus = 0
 endif
 
@@ -926,7 +924,11 @@ nnoremap <silent> <C-a> :nohl<cr>
 let javabrowser_ctags_cmd = g:ctags_path
 let JavaBrowser_Inc_Winwidth = 0
 let JavaBrowser_WinWidth = g:WinWidth
+let JavaBrowser_Auto_Open = 1
 nmap <silent> <leader>ja :JavaBrowser<cr>
+"if !&diff
+    "autocmd FileType java nested :JavaBrowser
+"endif
 
 let tlist_vimwiki_settings = 'wiki;h:Headers'
 let tlist_confluencewiki_settings = 'confluencewiki;h:Headers'
