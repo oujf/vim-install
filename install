@@ -25,7 +25,7 @@ for package in vim80 ctags-5.8 cscope-15.8a ccglue-0.6.0 global-6.5.5
 do
 	echo $package
 	cd $package
-	echo "\n install $package ..."
+	echo "\n #####install $package ..."
 
 	if [ $package = "vim80" ]; then
 		./configure --prefix=/usr \
@@ -50,7 +50,7 @@ do
 	[ $? -ne 0 ] && die $package
 	cd $cur_dir
 	sudo rm -rf $package
-	echo " install $package done ...\n"
+	echo " #####install $package done ...\n"
 done
 
 
