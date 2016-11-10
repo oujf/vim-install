@@ -36,5 +36,5 @@ $ cd vim-install
 $ ./install
 
 Launch `vim` and run `:PluginInstall`
-To install from command line: `vim +PluginInstall +qall`
+Start install from command line: `vim +PluginInstall +qall`
 ```
