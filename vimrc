@@ -42,6 +42,7 @@
 
 
 " ================================ configure ==================================
+let g:WinWidth   = 45
 let g:USE#bundle = 1                    " default enable bundle
 let g:powerline#airline = "powerline"   " powerline, airline
 
@@ -103,6 +104,7 @@ Plugin 'wmanley/git-meld'
 Plugin 'tomasr/molokai'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'abijr/colorpicker'
+Plugin 'toyamarinyon/vim-swift'
 
 if !(has('lua') && (v:version > 703 || v:version == 703 && has('patch885')))
     Plugin 'Shougo/neocomplcache.vim'
@@ -835,12 +837,12 @@ let g:ctags_args=1
 let g:Tlist_Use_Right_Window=1
 let g:Tlist_Show_One_File = 1
 let g:Tlist_Exit_OnlyWindow = 1
-let g:Tlist_WinWidth=35
+let g:Tlist_WinWidth = g:WinWidth
 nmap <leader>tl :TlistToggle<CR>
 
 let g:tagbar_iconchars = ['▷', '◢']
 let g:tagbar_left = 1               "窗口显示在左边
-let g:tagbar_width = 30             "窗口宽度
+let g:tagbar_width = g:WinWidth     "窗口宽度
 let g:tagbar_autofocus = 1          "启动后光标focus到窗口
 let g:tagbar_sort = 0               "启动时不自动按name排序，以出现的先后顺序排列，s<CR>可以手动按name排序
 let g:tagbar_autopreview = 1
@@ -923,6 +925,7 @@ nnoremap <silent> <C-a> :nohl<cr>
 " --- JavaBrowser
 let javabrowser_ctags_cmd = g:ctags_path
 let JavaBrowser_Inc_Winwidth = 0
+let JavaBrowser_WinWidth = g:WinWidth
 nmap <silent> <leader>ja :JavaBrowser<cr>
 
 let tlist_vimwiki_settings = 'wiki;h:Headers'
