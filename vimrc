@@ -13,7 +13,6 @@
 " <F2>
 " <F3>      pastetoggle
 " <F4>      tabclose
-" <F5>      Lookup File
 " <F6>
 " <F7>
 " <F8>
@@ -21,12 +20,13 @@
 " <F10>     NeoCompleteToggle or NeoComplCacheToggle
 " <F12>     .c --> .h
 " Other:
-" \lk \ll \lw       Lookup
-" <Ctrl-a>          nohl
+" \l                Lookup File
+" \lt \lb \lw       Lookup
+" \nh               nohl
 " <Ctrl-n>          :cn
 " <Ctrl-p>          :cp
 " <Ctrl-Shift-p>    turn off Auto Pairs
-" \ja               JavaBrowser
+" \jb               JavaBrowser
 " \be               BufferExplorer
 " \w                :w!
 " \file             echo filepath
@@ -72,10 +72,9 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'The-NERD-tree'
 Plugin 'scrooloose/nerdcommenter'
-"Plugin 'tagbar'
-Plugin 'majutsushi/tagbar'
+"Plugin 'majutsushi/tagbar'
+Plugin 'vim-scripts/Tagbar'
 Plugin 'taglist.vim'
-"Plugin 'bufexplorer.zip'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'a.vim'
 Plugin 'c.vim'
@@ -897,6 +896,21 @@ nnoremap <silent> <leader>g :Rgrep
 
 
 " --- lookupfile
+"  remap <Plug>LookupFile to <leader>l
+if (! exists("no_plugin_maps") || ! no_plugin_maps) &&
+      \ (! exists("no_lookupfile_maps") || ! no_lookupfile_maps)
+  noremap <script> <silent> <Plug>LookupFile :LookupFile<CR>
+
+    if !hasmapto('<Plug>LookupFile', 'n')
+      nmap <unique> <silent> <leader>l <Plug>LookupFile
+    endif
+    if !hasmapto('<Plug>LookupFile', 'i')
+      inoremap <Plug>LookupFileCE <C-E>
+      imap <unique> <expr> <silent> <leader>l (pumvisible() ? "\<Plug>LookupFileCE" :
+            \ "")."\<Esc>\<Plug>LookupFile"
+    endif
+endif
+
 let g:LookupFile_MinPatLength = 2               "最少输入2个字符才开始查找
 let g:LookupFile_PreserveLastPattern = 0        "不保存上次查找的字符串
 let g:LookupFile_PreservePatternHistory = 1     "保存查找历史
@@ -906,18 +920,14 @@ let g:LookupFile_AllowNewFiles = 0              "不允许创建不存在的文�
 if filereadable("./.filenametags")              "设置tag文件的名字
     let g:LookupFile_TagExpr = '"./.filenametags"'
 endif
-" Don't display binary files
 let g:LookupFile_FileFilter = '\.class$\|\.o$\|\.obj$\|\.exe$\|\.jar$\|\.zip$\|\.war$\|\.ear$'
-"映射LookupFile为,\lk
-nmap <silent> <leader>lk :LUTags<cr>
-"映射LUBufs为,\ll
-nmap <silent> <leader>ll :LUBufs<cr>
-"映射LUWalk为,\lw
+nmap <silent> <leader>lt :LUTags<cr>
+nmap <silent> <leader>lb :LUBufs<cr>
 nmap <silent> <leader>lw :LUWalk<cr>
 
 
 " --- nohl
-nnoremap <silent> <C-a> :nohl<cr>
+nnoremap <silent> <leader>nh :nohl<cr>
 
 
 " --- JavaBrowser
@@ -925,10 +935,7 @@ let javabrowser_ctags_cmd = g:ctags_path
 let JavaBrowser_Inc_Winwidth = 0
 let JavaBrowser_WinWidth = g:WinWidth
 let JavaBrowser_Auto_Open = 1
-nmap <silent> <leader>ja :JavaBrowser<cr>
-"if !&diff
-    "autocmd FileType java nested :JavaBrowser
-"endif
+nmap <silent> <leader>jb :JavaBrowser<cr>
 
 let tlist_vimwiki_settings = 'wiki;h:Headers'
 let tlist_confluencewiki_settings = 'confluencewiki;h:Headers'
@@ -964,5 +971,5 @@ highlight ExtraWhitespace ctermbg=red   guibg=brown
 
 
 " auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source ~/.vimrc
+autocmd! bufwritepost .vim/vimrc source ~/.vim/vimrc
 
