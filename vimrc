@@ -899,7 +899,7 @@ nnoremap <silent> <leader>g :Rgrep
 "  remap <Plug>LookupFile to <leader>l
 if (! exists("no_plugin_maps") || ! no_plugin_maps) &&
       \ (! exists("no_lookupfile_maps") || ! no_lookupfile_maps)
-  noremap <script> <silent> <Plug>LookupFile :LookupFile<CR>
+    noremap <script> <silent> <Plug>LookupFile :LookupFile<CR>
 
     if !hasmapto('<Plug>LookupFile', 'n')
       nmap <unique> <silent> <leader>l <Plug>LookupFile
@@ -911,6 +911,10 @@ if (! exists("no_plugin_maps") || ! no_plugin_maps) &&
     endif
 endif
 
+nmap <silent> <leader>lt :LUTags<cr>
+nmap <silent> <leader>lb :LUBufs<cr>
+nmap <silent> <leader>lw :LUWalk<cr>
+
 let g:LookupFile_MinPatLength = 2               "最少输入2个字符才开始查找
 let g:LookupFile_PreserveLastPattern = 0        "不保存上次查找的字符串
 let g:LookupFile_PreservePatternHistory = 1     "保存查找历史
@@ -921,9 +925,6 @@ if filereadable("./.filenametags")              "设置tag文件的名字
     let g:LookupFile_TagExpr = '"./.filenametags"'
 endif
 let g:LookupFile_FileFilter = '\.class$\|\.o$\|\.obj$\|\.exe$\|\.jar$\|\.zip$\|\.war$\|\.ear$'
-nmap <silent> <leader>lt :LUTags<cr>
-nmap <silent> <leader>lb :LUBufs<cr>
-nmap <silent> <leader>lw :LUWalk<cr>
 
 
 " --- nohl
