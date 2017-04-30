@@ -31,7 +31,7 @@ Vim settings, plugins...
 for Unix-like(Mac, Linux):
 
 ```
-$ git clone git@github.com:oujf/vim-install.git ./vim-install
+$ git clone https://github.com/oujf/vim-install.git ./vim-install
 $ cd vim-install
 $ ./install
 
