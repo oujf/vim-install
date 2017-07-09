@@ -206,17 +206,6 @@ set fileformats=unix,dos,mac
 
 " theme, skin, color
 " terminal color settings
-if g:OS#gui
-    colo odark
-    "colo olight
-    "colo delek
-    "colo desert
-    "colo slate
-    "colo zellner
-else
-    colo olight
-endif
-
 let g:molokai_original = 0
 colorscheme molokai
 
