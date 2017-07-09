@@ -269,7 +269,6 @@ endif
 if g:OS#win && g:OS#gui
     au GUIEnter * simalt ~x
 elseif g:OS#mac
-    set transparency=5
     set columns=999
     set lines=99
 elseif g:OS#unix
