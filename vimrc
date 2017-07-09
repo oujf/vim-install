@@ -651,10 +651,10 @@ endif
 
 " ================================== Plugins ==================================
 
-if filereadable("/usr/bin/ctags")
-    let g:ctags_path = '/usr/bin/ctags'
-elseif filereadable("/usr/local/bin/ctags")
+if filereadable("/usr/local/bin/ctags")
     let g:ctags_path = '/usr/local/bin/ctags'
+elseif filereadable("/usr/bin/ctags")
+    let g:ctags_path = '/usr/bin/ctags'
 endif
 
 " MRU.vim
