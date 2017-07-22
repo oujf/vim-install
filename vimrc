@@ -22,7 +22,7 @@
 " Other:
 " \l                Lookup File
 " \lt \lb \lw       Lookup
-" \nh               nohl
+" \h                nohl
 " <Ctrl-n>          :cn
 " <Ctrl-p>          :cp
 " <Ctrl-Shift-p>    turn off Auto Pairs
@@ -916,7 +916,7 @@ let g:LookupFile_FileFilter = '\.class$\|\.o$\|\.obj$\|\.exe$\|\.jar$\|\.zip$\|\
 
 
 " --- nohl
-nnoremap <silent> <leader>nh :nohl<cr>
+nnoremap <silent> <leader>h :nohl<cr>
 
 
 " --- JavaBrowser
