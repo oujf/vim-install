@@ -37,4 +37,12 @@ $ ./install
 
 Launch `vim` and run `:PluginInstall`
 Start install from command line: `vim +PluginInstall +qall`
+
+for macOS
+$ brew install vim
+$ mkdir ~/.vim
+$ cp vim-install/vimrc ~/.vim/vimrc
+$ cp vim-install/scripts/* ~/.vim/
+$ sudo ln -s ~/.vim/scripts/ktags /usr/local/bin/ktags
+$ sudo ln -s ~/.vim/scripts/mtags /usr/local/bin/tag
 ```
