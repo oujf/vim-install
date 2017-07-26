@@ -5,6 +5,9 @@
 " History:
 "   2014-12-02
 "   +init
+"
+"   2017-07-16
+"   +compatibe macosx
 "==============================================================================
 
 "------------------------------------------------------------------------------
@@ -97,12 +100,11 @@ Plugin 'L9'
 Plugin 'FuzzyFinder'
 Plugin 'kien/ctrlp.vim'
 Plugin 'sudo.vim'
-Plugin 'oujf/cscope_maps'
-Plugin 'wmanley/git-meld'
 Plugin 'tomasr/molokai'
 Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'abijr/colorpicker'
 Plugin 'toyamarinyon/vim-swift'
+Plugin 'oujf/vim-one'
+Plugin 'oujf/cscope_maps'
 
 if !(has('lua') && (v:version > 703 || v:version == 703 && has('patch885')))
     Plugin 'Shougo/neocomplcache.vim'
@@ -206,8 +208,11 @@ set fileformats=unix,dos,mac
 
 " theme, skin, color
 " terminal color settings
-let g:molokai_original = 0
-colorscheme molokai
+"let g:molokai_original = 0
+"colorscheme molokai
+
+set background=dark
+colorscheme one
 
 
 " @see :help mbyte-IME
@@ -583,14 +588,11 @@ if g:OS#win
     au! bufwritepost hosts silent !start cmd /C ipconfig /flushdns
     " @see http://practice.chatserve.com/hosts.html
     command -nargs=0 Hosts silent tabnew c:\windows\system32\drivers\etc\hosts
-
     command -nargs=0 Vimrc silent tabnew $VIM/vimfiles/vimrc
-    command -nargs=0 Color silent tabnew $VIM/vimfiles/colors/odark.vim
 else
     " readonly.
     command -nargs=0 Hosts :!sudo gvim /etc/hosts
     command -nargs=0 Vimrc :silent! tabnew ~/.vim/vimrc
-    command -nargs=0 Color :silent! tabnew ~/.vim/colors/odark.vim
 endif
 
 
