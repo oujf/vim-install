@@ -23,20 +23,20 @@
 " <F10>     NeoCompleteToggle or NeoComplCacheToggle
 " <F12>     .c --> .h
 " Other:
+" <Ctrl-n>          :cn
+" <Ctrl-p>          :cp
 " \l                Lookup File
 " \lt \lb \lw       Lookup
 " \h                nohl
-" <Ctrl-n>          :cn
-" <Ctrl-p>          :cp
-" <Ctrl-Shift-p>    turn off Auto Pairs
+" \p                turn off Auto Pairs
 " \jb               JavaBrowser
 " \be               BufferExplorer
 " \w                :w!
-" \file             echo filepath
 " \N                NERDTree
 " \t                TagBar
 " \tl               Tlist
 " \g                :Rgrep
+" \file             echo filepath
 " n\cc              Comments out the current line or text selected in visual mode.
 " n\cu              Uncomments the selected line(s).
 " n\cm              /* Comments */
@@ -407,7 +407,8 @@ vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 " --- Auto Pairs
 if !exists('g:AutoPairsEnable')
     let g:AutoPairsEnable = 1
-    let g:AutoPairsShortcutToggle = '<C-S-p>'
+    "let g:AutoPairsShortcutToggle = '<C-S-p>'
+    let g:AutoPairsShortcutToggle = '<silent> <leader>p'
 end
 
 if !g:AutoPairsEnable
@@ -778,7 +779,7 @@ endif
 
 " --- Syntastic 语法检查
 if &diff
-  let g:loaded_syntastic_plugin = 1
+  "let g:loaded_syntastic_plugin = 1
 else
   let g:syntastic_always_populate_loc_list=1
   let g:syntastic_check_on_open=0
