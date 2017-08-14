@@ -46,7 +46,7 @@
 " ================================ configure ==================================
 let g:WinWidth   = 45
 let g:USE#bundle = 1                    " default enable bundle
-let g:powerline#airline = "powerline"   " powerline, airline
+let g:powerline#airline = "airline"     " powerline, airline
 
 
 " ================================== Vundle ===================================
@@ -75,7 +75,6 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'The-NERD-tree'
 Plugin 'scrooloose/nerdcommenter'
-"Plugin 'majutsushi/tagbar'
 Plugin 'vim-scripts/Tagbar'
 Plugin 'taglist.vim'
 Plugin 'jlanzarotta/bufexplorer'
@@ -101,9 +100,9 @@ Plugin 'FuzzyFinder'
 Plugin 'kien/ctrlp.vim'
 Plugin 'sudo.vim'
 Plugin 'tomasr/molokai'
+Plugin 'joshdick/onedark.vim'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'toyamarinyon/vim-swift'
-Plugin 'oujf/vim-one'
 Plugin 'oujf/cscope_maps'
 
 if !(has('lua') && (v:version > 703 || v:version == 703 && has('patch885')))
@@ -115,14 +114,16 @@ endif
 if g:powerline#airline == "powerline"
     Plugin 'Lokaltog/vim-powerline'
 else
-    Plugin 'bling/vim-airline'
+    Plugin 'vim-airline/vim-airline'
 endif
+
 "Plugin 'powerline/powerline'       " depend python
 "Plugin 'honza/vim-snippets'        " snipMate & UltiSnip Snippets
 "Plugin 'CCTree'
 "Plugin 'mru.vim'
 "Plugin 'comments.vim'
 "Plugin 'BlockComment.vim'
+"Plugin 'majutsushi/tagbar'
 "Plugin 'The-NERD-Commenter'
 "Plugin 'neocomplcache'
 
@@ -205,14 +206,8 @@ filetype plugin on    " Enable filetype-specific plugins
 set fileformat=unix
 set fileformats=unix,dos,mac
 
-
-" theme, skin, color
-" terminal color settings
-"let g:molokai_original = 0
-"colorscheme molokai
-
-set background=dark
-colorscheme one
+" set color theme
+colorscheme onedark
 
 
 " @see :help mbyte-IME
@@ -338,7 +333,7 @@ set splitright                  " 新窗口在当前窗口之右
 
 
 " Folds.
-set foldmethod=syntax           " 按照语法区域折叠
+set foldmethod=marker
 set foldlevel=99
 set foldcolumn=0
 set foldopen-=search            " dont open folds when I search into thm
@@ -407,7 +402,6 @@ vnoremap  #  y?<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 " --- Auto Pairs
 if !exists('g:AutoPairsEnable')
     let g:AutoPairsEnable = 1
-    "let g:AutoPairsShortcutToggle = '<C-S-p>'
     let g:AutoPairsShortcutToggle = '<silent> <leader>p'
 end
 
@@ -578,8 +572,9 @@ endfunction
 " Open Windows Explorer and Fouse current file.
 " or open Mac Finder.
 "                                      %:p:h     " Just Fold Name.
-command -nargs=0 FileExplorer :silent call FileExplorer("")
-if g:OS#mac
+if g:OS#win
+    command -nargs=0 FileExplorer :silent call FileExplorer("")
+elseif g:OS#mac
     command -nargs=0 Finder :silent call FileExplorer("")
 endif
 
@@ -742,35 +737,44 @@ set laststatus=2       " Always show the statusline
 set t_Co=256           " Explicitly tell vim that the terminal supports 256 colors
 
 if g:powerline#airline == "powerline"
+    let g:airline_theme='one'
     let g:Powerline_symbols = 'unicode'
     let g:Powerline_cache_enabled = 0    " Disable cache file create
     call Pl#Theme#InsertSegment('pwd', 'after', 'mode_indicator')
 else
+    let g:airline_theme='onedark'
+
     if !exists('g:airline_symbols')
         let g:airline_symbols = {}
     endif
 
     " unicode symbols
+    let g:airline_left_sep = '»'
     let g:airline_left_sep = '▶'
+    let g:airline_right_sep = '«'
     let g:airline_right_sep = '◀'
+    let g:airline_symbols.crypt = '🔒 '
+    let g:airline_symbols.linenr = '☰'
     let g:airline_symbols.linenr = '␊'
     let g:airline_symbols.linenr = '␤'
+    let g:airline_symbols.linenr = '¶'
+    let g:airline_symbols.maxlinenr = ''
+    let g:airline_symbols.maxlinenr = '㏑'
     let g:airline_symbols.branch = '⎇'
     let g:airline_symbols.paste = 'ρ'
     let g:airline_symbols.paste = 'Þ'
     let g:airline_symbols.paste = '∥'
+    let g:airline_symbols.spell = 'Ꞩ'
+    let g:airline_symbols.notexists = '∄'
     let g:airline_symbols.whitespace = 'Ξ'
 
-    "let g:airline#extensions#tabline#enabled = 1
-    "let g:airline#extensions#tabline#left_sep = ' '
-    "let g:airline#extensions#tabline#left_alt_sep = '|'
-    "let g:airline#extensions#tabline#buffer_nr_show = 1
-    "let g:airline#extensions#buffline#enabled = 1
-    "let g:airline#extensions#bufferline#overwrite_variables = 1
+    let g:airline_section_a=airline#section#create(['mode'])
+    let g:airline_section_b=airline#section#create(['%{getcwd()}'])
+    let g:airline_section_c=airline#section#create(['%f'])
+    let g:airline_section_x=airline#section#create(['branch','ffenc'])
+    let g:airline_section_y=airline#section#create(['','[TYPE:','filetype',']','[TIME:','%{strftime("%H:%M")}',']'])
 
-    let g:airline_theme = 'powerlineish'
-    let g:airline_section_b = '%{getcwd()}'
-    let g:airline_section_c = '%t'
+    let g:airline#extensions#whitespace#enabled = 0
     let g:airline#extensions#syntastic#enabled = 0
     let g:airline#extensions#tagbar#enabled = 1
     let g:airline#extensions#tagbar#flags = 's'
