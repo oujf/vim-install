@@ -12,34 +12,37 @@
 
 "------------------------------------------------------------------------------
 " HotKey
-" Fn:
+" @Fn:
 " <F2>
-" <F3>      pastetoggle
-" <F4>      tabclose
+" <F3>              pastetoggle
+" <F4>              tabclose
 " <F6>
 " <F7>
 " <F8>
-" <F9>      Quickfix
-" <F10>     NeoCompleteToggle or NeoComplCacheToggle
-" <F12>     .c --> .h
-" Other:
+" <F9>              Quickfix
+" <F10>             NeoCompleteToggle or NeoComplCacheToggle
+" <F12>             .c --> .h
+"
+" @Ctrl:
 " <Ctrl-n>          :cn
 " <Ctrl-p>          :cp
-" \l                Lookup File
-" \lt \lb \lw       Lookup
-" \h                nohl
-" \p                turn off Auto Pairs
-" \jb               JavaBrowser
+"
+" @Leader:
 " \be               BufferExplorer
-" \w                :w!
-" \N                NERDTree
-" \t                TagBar
-" \tl               Tlist
-" \g                :Rgrep
+" \cc               Comments out the current line or text selected in visual mode.
+" \cu               Uncomments the selected line(s).
+" \cm               /* Comments */
 " \file             echo filepath
-" n\cc              Comments out the current line or text selected in visual mode.
-" n\cu              Uncomments the selected line(s).
-" n\cm              /* Comments */
+" \g                :Rgrep
+" \h                nohl
+" \l                Lookup File
+" \jb               JavaBrowser
+" \lt \lb \lw       Lookup
+" \N                NERDTree
+" \p                turn off Auto Pairs
+" \tb               TagBar
+" \tl               Tlist
+" \w                StripWhitespace
 "------------------------------------------------------------------------------
 
 
@@ -101,6 +104,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'sudo.vim'
 Plugin 'tomasr/molokai'
 Plugin 'joshdick/onedark.vim'
+Plugin 'rakr/vim-one'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'toyamarinyon/vim-swift'
 Plugin 'oujf/cscope_maps'
@@ -384,9 +388,9 @@ vmap <tab>   >gv
 vmap <s-tab> <gv
 imap jj      <Esc>
 
-" Fast saving
+" strip white space
 map <leader>w :StripWhitespace<cr>
-"map <leader>w :w!<cr>
+" sudo write
 map <c-s> <Esc>:w !sudo tee %
 " Copypath
 map <leader>file :echo expand("%:p")<cr>
@@ -749,21 +753,13 @@ else
     endif
 
     " unicode symbols
-    let g:airline_left_sep = '»'
     let g:airline_left_sep = '▶'
-    let g:airline_right_sep = '«'
     let g:airline_right_sep = '◀'
     let g:airline_symbols.crypt = '🔒 '
     let g:airline_symbols.linenr = '☰'
-    let g:airline_symbols.linenr = '␊'
-    let g:airline_symbols.linenr = '␤'
-    let g:airline_symbols.linenr = '¶'
-    let g:airline_symbols.maxlinenr = ''
     let g:airline_symbols.maxlinenr = '㏑'
     let g:airline_symbols.branch = '⎇'
     let g:airline_symbols.paste = 'ρ'
-    let g:airline_symbols.paste = 'Þ'
-    let g:airline_symbols.paste = '∥'
     let g:airline_symbols.spell = 'Ꞩ'
     let g:airline_symbols.notexists = '∄'
     let g:airline_symbols.whitespace = 'Ξ'
@@ -802,9 +798,6 @@ endif
 " ctags, TagList, Tagbar.
 " @see http://easwy.com/blog/archives/advanced-vim-skills-taglist-plugin/
 set tags=.tags;
-"set tags+=./.tags
-"set tags+=./**/.tags
-"set tags+=./../.tags
 
 if g:OS#win
     let g:ctags_path=$VIM.'\vimfiles\plugin\ctags.exe'
@@ -841,7 +834,7 @@ let g:tagbar_sort = 0               "启动时不自动按name排序，以出现
 let g:tagbar_autopreview = 1        "显示预览窗口
 "let g:tagbar_autoshowtag = 1
 let g:tagbar_previewwin_pos = "aboveright"
-nmap <leader>t :TagbarToggle<CR>
+nmap <leader>tb :TagbarToggle<CR>
 
 if !&diff
     autocmd FileType c,cpp nested :TagbarOpen
