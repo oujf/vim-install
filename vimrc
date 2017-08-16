@@ -392,6 +392,10 @@ map <leader>w :StripWhitespace<cr>
 map <c-s> <Esc>:w !sudo tee %
 " Copypath
 map <leader>file :echo expand("%:p")<cr>
+" nohl
+nnoremap <silent> <leader>h :nohl<cr>
+
+
 " Paste toggle - when pasting something in, don't indent.
 set pastetoggle=<F3>
 
@@ -917,10 +921,6 @@ endif
 let g:LookupFile_FileFilter = '\.class$\|\.o$\|\.obj$\|\.exe$\|\.jar$\|\.zip$\|\.war$\|\.ear$'
 
 
-" --- nohl
-nnoremap <silent> <leader>h :nohl<cr>
-
-
 " --- JavaBrowser
 let javabrowser_ctags_cmd = g:ctags_path
 let JavaBrowser_Inc_Winwidth = 0
@@ -958,7 +958,7 @@ autocmd BufWritePre * call DeleteWhitespaceBlankline()
 
 " use ntpeters/vim-better-whitespace
 "autocmd FileType c,cpp,java,html autocmd BufWritePre * StripWhitespace
-highlight ExtraWhitespace ctermbg=red   guibg=brown
+highlight ExtraWhitespace ctermbg=grey guibg=brown
 
 
 " auto reload vimrc when editing it
