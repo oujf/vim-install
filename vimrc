@@ -40,7 +40,7 @@
 " \lt \lb \lw       Lookup
 " \N                NERDTree
 " \p                turn off Auto Pairs
-" \tb               TagBar
+" \t                TagBar TagbarToggle
 " \tl               Tlist
 " \w                StripWhitespace
 "------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'The-NERD-tree'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'vim-scripts/Tagbar'
+Plugin 'majutsushi/tagbar'
 Plugin 'taglist.vim'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'a.vim'
@@ -121,13 +121,11 @@ else
     Plugin 'vim-airline/vim-airline'
 endif
 
-"Plugin 'powerline/powerline'       " depend python
 "Plugin 'honza/vim-snippets'        " snipMate & UltiSnip Snippets
 "Plugin 'CCTree'
 "Plugin 'mru.vim'
 "Plugin 'comments.vim'
 "Plugin 'BlockComment.vim'
-"Plugin 'majutsushi/tagbar'
 "Plugin 'The-NERD-Commenter'
 "Plugin 'neocomplcache'
 
@@ -831,18 +829,18 @@ let g:Tlist_WinWidth = g:WinWidth
 nmap <leader>tl :TlistToggle<CR>
 
 let g:tagbar_iconchars = ['▷', '◢']
-let g:tagbar_left = 1               "窗口显示在左边
-let g:tagbar_width = g:WinWidth     "窗口宽度
-let g:tagbar_autofocus = 1          "启动后光标focus到窗口
-let g:tagbar_sort = 0               "启动时不自动按name排序，以出现的先后顺序排列，s<CR>可以手动按name排序
-let g:tagbar_autopreview = 1        "显示预览窗口
-"let g:tagbar_autoshowtag = 1
-let g:tagbar_previewwin_pos = "aboveright"
-nmap <leader>tb :TagbarToggle<CR>
+let g:tagbar_left = 1
+let g:tagbar_width = g:WinWidth
+let g:tagbar_previewwin_pos = "aboveleft"
+let g:tagbar_autofocus = 1
+let g:tagbar_sort = 0
+let g:tagbar_indent = 2
+let g:tagbar_autopreview = 1
+nmap <leader>t :TagbarToggle<CR>
 
 if !&diff
-    autocmd FileType c,cpp nested :TagbarOpen
-    autocmd FileType c,cpp let g:tagbar_autofocus = 0
+    autocmd FileType c,cpp,java nested :TagbarOpen
+    autocmd FileType c,cpp,java let g:tagbar_autofocus = 0
 endif
 
 
@@ -927,7 +925,7 @@ nnoremap <silent> <leader>h :nohl<cr>
 let javabrowser_ctags_cmd = g:ctags_path
 let JavaBrowser_Inc_Winwidth = 0
 let JavaBrowser_WinWidth = g:WinWidth
-let JavaBrowser_Auto_Open = 1
+let JavaBrowser_Auto_Open = 0
 nmap <silent> <leader>jb :JavaBrowser<cr>
 
 let tlist_vimwiki_settings = 'wiki;h:Headers'
