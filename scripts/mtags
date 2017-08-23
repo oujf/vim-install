@@ -14,7 +14,7 @@ function file_list() {
 	echo -n -e '\e[0m'
 
 	for dir in $DIRS; do
-		gfind $PWD/$dir -type f -name "*.h" \
+		find $PWD/$dir -type f -name "*.h" \
 			-o -type f -name "*.c" \
 			-o -type f -name "*.cc" \
 			-o -type f -name "*.cpp" \
@@ -22,7 +22,7 @@ function file_list() {
 			>> .vimproj/files.list
 	done
 
-	gfind $PWD -maxdepth 1 -type f -name "*.h" \
+	find $PWD -maxdepth 1 -type f -name "*.h" \
 		-o -type f -name "*.c" \
 		-o -type f -name "*.cc" \
 		-o -type f -name "*.cpp" \
@@ -126,7 +126,7 @@ function create_ftags() {
 
         time \
 		(echo "!_TAG_FILE_SORTED        2       /2=foldcase/";
-        (gfind $PWD -not -regex '.*\.\(jar\|gif\|jpg\|class\|exe\|dll\|pdd\|sw[op]\|xls\|doc\|pdf\|zip\|tar\|ico\|ear\|war\|dat\|png\|gif\|html\|txt\|jd\|compiled\|mk\|xml\)' -type f -printf "%f\t%p\t1\n" | \
+        (find $PWD -not -regex '.*\.\(jar\|gif\|jpg\|class\|exe\|dll\|pdd\|sw[op]\|xls\|doc\|pdf\|zip\|tar\|ico\|ear\|war\|dat\|png\|gif\|html\|txt\|jd\|compiled\|mk\|xml\)' -type f -printf "%f\t%p\t1\n" | \
                 sort -f )) > ./.filenametags
 
 		echo -e "\e[;32mdone. \e[0m"
