@@ -41,7 +41,7 @@ Launch `vim` and run `:PluginInstall`
 Start install from command line: `vim +PluginInstall +qall`
 
 for macOS
-$ brew install vim
+$ brew install vim --with-override-system-vi --with-python3 --with-lua
 $ mkdir ~/.vim
 $ cp vim-install/vimrc ~/.vim/vimrc
 $ cp vim-install/scripts/* ~/.vim/
