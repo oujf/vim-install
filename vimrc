@@ -43,6 +43,9 @@
 " \t                TagBar TagbarToggle
 " \tl               Tlist
 " \w                StripWhitespace
+"
+" @Leader:
+" ,,                ctrlp
 "------------------------------------------------------------------------------
 
 
@@ -803,7 +806,7 @@ endif
 
 " ctags, TagList, Tagbar.
 " @see http://easwy.com/blog/archives/advanced-vim-skills-taglist-plugin/
-set tags=.tags;
+set tags=tags;
 
 if g:OS#win
     let g:ctags_path=$VIM.'\vimfiles\plugin\ctags.exe'
@@ -836,7 +839,7 @@ let g:tagbar_iconchars = ['▷', '◢']
 let g:tagbar_left = 1
 let g:tagbar_width = g:WinWidth
 let g:tagbar_previewwin_pos = "aboveleft"
-let g:tagbar_autofocus = 1
+let g:tagbar_autofocus = 0
 let g:tagbar_sort = 0
 let g:tagbar_indent = 2
 let g:tagbar_autopreview = 1
@@ -866,6 +869,7 @@ endif
 
 " --- GTAGS - GNU GLOBAL Source Code Tag System
 if g:cscope_enable == 0
+    :nmap <C-\><C-]> :GtagsCursor<CR>
     let Gtags_Auto_Map = 0
     let GtagsCscope_Auto_Map = 1        " To use the default key/mouse mapping
     let GtagsCscope_Ignore_Case = 1     " To ignore letter case when searching
@@ -915,8 +919,8 @@ let g:LookupFile_PreservePatternHistory = 1     "保存查找历史
 let g:LookupFile_RecentFileListSize = 30
 let g:LookupFile_AlwaysAcceptFirst = 1          "回车打开第一个匹配项目
 let g:LookupFile_AllowNewFiles = 0              "不允许创建不存在的文件
-if filereadable("./.filenametags")              "设置tag文件的名字
-    let g:LookupFile_TagExpr = '"./.filenametags"'
+if filereadable("filenametags")                 "设置tag文件的名字
+    let g:LookupFile_TagExpr = '"filenametags"'
 endif
 let g:LookupFile_FileFilter = '\.class$\|\.o$\|\.obj$\|\.exe$\|\.jar$\|\.zip$\|\.war$\|\.ear$'
 

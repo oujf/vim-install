@@ -1,13 +1,13 @@
 #!/bin/bash
 
 function file_list() {
-	if [ -f .vimproj/files.list ]; then
-		echo "remove files.list"
-		rm -vf .vimproj/files.list
-		touch .vimproj/files.list
+	if [ -f filenamelist ]; then
+		echo "remove filenamelist"
+		rm -vf filenamelist
+		touch filenamelist
 	fi
 
-	echo "create files.list"
+	echo "create filenamelist"
 	echo -n "search dirs: "
 	echo -n -e '\e[;32m'
 	echo $DIRS
@@ -19,7 +19,7 @@ function file_list() {
 			-o -type f -name "*.cc" \
 			-o -type f -name "*.cpp" \
 			-o -type f -name "*.java" \
-			>> .vimproj/files.list
+			>> filenamelist
 	done
 
 	find $PWD -maxdepth 1 -type f -name "*.h" \
@@ -27,16 +27,16 @@ function file_list() {
 		-o -type f -name "*.cc" \
 		-o -type f -name "*.cpp" \
 		-o -type f -name "*.java" \
-		>> .vimproj/files.list
+		>> filenamelist
 
-	echo "create files.list successful"
+	echo "create filenamelist successful"
 }
 
 function create_cscope() {
 
 	new=y
 
-	if [ -f .vimproj/cscope.out ]; then
+	if [ -f cscope.out ]; then
 		read -p "cscope tags already exist!  Re-create? [yes/no] " new
 	fi
 
@@ -47,10 +47,9 @@ function create_cscope() {
 		else
 			file_list
 			echo "create cscope.out ..."
-			time cscope -bkq -i .vimproj/files.list
+			time cscope -bkq -i filenamelist
 		fi
 
-		mv -v cscope* .vimproj
 		echo -e "\e[;32mdone. \e[0m"
 	else
 		return 0
@@ -63,7 +62,7 @@ function create_ctags() {
 
 	new=y
 
-	if [ -f .tags ]; then
+	if [ -f tags ]; then
 		read -p "tags already exists! Re-create? [yes/no] " new
 	fi
 
@@ -72,12 +71,12 @@ function create_ctags() {
 			echo -e 'use [\e[;31mktags\e[0m] create tags ...'
 			time ktags tags
 		else
-			if [ ! -s .vimproj/files.list ]; then
+			if [ ! -s filenamelist ]; then
 				file_list
 			fi
 
 			echo "create tags ..."
-			time ctags -L .vimproj/files.list --c-kinds=+p --c++-kinds=+p --java-kinds=+l --fields=+lS --links=no -f .tags
+			time ctags -L filenamelist --c-kinds=+p --c++-kinds=+p --java-kinds=+l --fields=+lS --links=no -f tags
 		fi
 
 		echo -e "\e[;32mdone. \e[0m"
@@ -90,7 +89,7 @@ function create_gtags() {
 
 	new=y
 
-	if [ -f .GTAGS ]; then
+	if [ -f GTAGS ]; then
 		read -p "gtags already exists! Re-create? [yes/no] " new
 	fi
 
@@ -99,12 +98,12 @@ function create_gtags() {
 			echo -e 'use [\e[;31mktags\e[0m] create gtags ...'
 			time ktags gtags
 		else
-			if [ ! -s .vimproj/files.list ]; then
+			if [ ! -s filenamelist ]; then
 				file_list
 			fi
 
 			echo "create gtags ..."
-			time gtags -f .vimproj/files.list
+			time gtags -f filenamelist
 		fi
 
 		echo -e "\e[;32mdone. \e[0m"
@@ -117,7 +116,7 @@ function create_ftags() {
 
 	new=y
 
-	if [ -f .filenametags ]; then
+	if [ -f filenametags ]; then
 		read -p "filename tags already exist! Re-create? [yes/no] " new
 	fi
 
@@ -127,7 +126,7 @@ function create_ftags() {
         time \
 		(echo "!_TAG_FILE_SORTED        2       /2=foldcase/";
         (find $PWD -not -regex '.*\.\(jar\|gif\|jpg\|class\|exe\|dll\|pdd\|sw[op]\|xls\|doc\|pdf\|zip\|tar\|ico\|ear\|war\|dat\|png\|gif\|html\|txt\|jd\|compiled\|mk\|xml\)' -type f -printf "%f\t%p\t1\n" | \
-                sort -f )) > ./.filenametags
+                sort -f )) > filenametags
 
 		echo -e "\e[;32mdone. \e[0m"
 	fi
@@ -146,17 +145,11 @@ function create_tag() {
 }
 
 function create_ccglue() {
-	ccglue -S .vimproj/cscope.out -o .vimproj/cctree.out
-}
-
-function create_dir() {
-	if [ ! -d .vimproj ]; then
-		mkdir -v .vimproj
-	fi
+	ccglue -S cscope.out -o cctree.out
 }
 
 function remove_file() {
-	for file in .vimproj .tags .GTAGS .GRTAGS .GPATH .filenametags
+	for file in tags GTAGS GRTAGS GPATH filenametags cscope.in.out cscope.out cscope.po.out cctree.out filenamelist
 	do
 		if [ -f $file ] || [ -d $file ]; then
 			rm -rvf $file
@@ -165,7 +158,7 @@ function remove_file() {
 }
 
 function tag_status() {
-	for file in .vimproj/cscope.out .tags .GTAGS .filenametags .vimproj/cctree.out
+	for file in cscope.out tags GTAGS filenametags cctree.out
 	do
 		len=`expr length $file`
 		pos=`expr "30" - $len`
@@ -210,8 +203,8 @@ function usage() {
 }
 
 function version() {
-	echo "tag v0.5 by oujf1 2011-11-11 11:11:11"
-	echo "Addresses: <oujf@outlook.com>"
+	echo "tag v0.6 by oujf 2017-08-28 13:49"
+	echo "mail: <oujf@outlook.com>"
 	exit 0
 }
 
@@ -236,30 +229,25 @@ esac
 case $1 in
 	"n" | "new")
 		remove_file
-		create_dir
 		create_tag
         create_ftags
 		tag_status
 		;;
 	"a" | "all")
-		create_dir
 		create_tag
         create_ftags
 		tag_status
 		;;
 	"g" | "gtags")
-		create_dir
 		create_gtags
 		;;
 	"cs" | "cscope")
-		create_dir
 		create_cscope
 		;;
 	"cc" | "ccglue")
 		create_ccglue
 		;;
 	"ct" | "ctag" | "ctags")
-		create_dir
 		create_ctags
 		;;
 	"f" | "ftag")
