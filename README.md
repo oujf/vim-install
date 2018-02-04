@@ -36,15 +36,16 @@ for Unix-like(Mac, Linux):
 $ git clone https://github.com/oujf/vim-install.git ./vim-install
 $ cd vim-install
 $ ./install
+$ ./install_mac		//for macOS install
 
 Launch `vim` and run `:PluginInstall`
 Start install from command line: `vim +PluginInstall +qall`
 
-for macOS
+For macOS
 $ brew install vim --with-override-system-vi --with-python3 --with-lua
 $ mkdir ~/.vim
-$ cp vim-install/vimrc ~/.vim/vimrc
-$ cp vim-install/scripts/* ~/.vim/
+$ cp -v vimrc ~/.vim/vimrc
+$ cp -rf scripts/ ~/.vim/
 $ sudo ln -s ~/.vim/scripts/ktags /usr/local/bin/ktags
-$ sudo ln -s ~/.vim/scripts/mtags /usr/local/bin/tag
+$ sudo ln -s ~/.vim/scripts/tags /usr/local/bin/tag
 ```

@@ -1,0 +1,10 @@
+#!/bin/bash
+#!/usr/local/bin/bash
+
+brew install vim --with-override-system-vi --with-python3 --with-lua
+mkdir ~/.vim
+cp -v vimrc ~/.vim/vimrc
+cp -rf scripts/ ~/.vim/
+
+sudo ln -s ~/.vim/scripts/ktags /usr/local/bin/ktags
+sudo ln -s ~/.vim/scripts/tags /usr/local/bin/tag
