@@ -1,5 +1,5 @@
-#!/bin/bash
 #!/usr/local/bin/bash
+#!/bin/bash
 
 function file_list() {
 	if [ -f filenamelist ]; then
