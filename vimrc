@@ -958,7 +958,8 @@ function! DeleteWhitespaceBlankline()
         call cursor(b:curline, b:curcol)
     endif
 endfunction
-autocmd BufWritePre * call DeleteWhitespaceBlankline()
+
+autocmd FileType c,cpp,java,html autocmd BufWritePre * call DeleteWhitespaceBlankline()
 
 " use ntpeters/vim-better-whitespace
 "autocmd FileType c,cpp,java,html autocmd BufWritePre * StripWhitespace
