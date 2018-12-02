@@ -1,8 +1,14 @@
 #!/bin/bash
 #!/usr/local/bin/bash
 
-brew install vim --with-override-system-vi --with-python3 --with-lua
-mkdir ~/.vim
+#brew install vim --with-override-system-vi --with-python3 --with-lua
+brew install vim
+brew install ctags
+
+[ ! -e "$HOME/.vim" ] && mkdir -p ~/.vim/
+[ ! -e "$HOME/.vim/.swap" ] && mkdir -p ~/.vim/.swap
+[ ! -e "$HOME/.vim/.undodir" ] && mkdir -p ~/.vim/.undodir
+
 cp -v vimrc ~/.vim/vimrc
 cp -rf scripts ~/.vim/
 
