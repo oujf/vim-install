@@ -679,27 +679,27 @@ let MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*'
 let MRU_Window_Height = 8
 
 
-" Mark.vim                                                                             
-" overlay default colors                                                               
-function! s:RGB(r, g, b)                                                               
-    return a:r * 36 + a:g * 6 + a:b + 16                                               
-endfunction                                                                            
-                                                                                       
-if &t_Co < 256                                                                         
-    hi MarkWord7 guifg=White ctermfg=White guibg=#800000 ctermbg=Maroon                
-    hi MarkWord8 guifg=White ctermfg=White guibg=#FF8C00 ctermbg=DarkOrange            
-    hi MarkWord9 guifg=Black ctermfg=Black guibg=#00FF7F ctermbg=SpringGreen           
-    hi MarkWord10 guifg=White ctermfg=White guibg=#8A2BE2 ctermbg=BlueViolet           
-    hi MarkWord11 guifg=Black ctermfg=Black guibg=#FFFAFA ctermbg=Snow                 
-    hi MarkWord12 guifg=White ctermfg=White guibg=#DE3163 ctermbg=Cherry               
-else                                                                                   
-  exec "hi MarkWord7  guifg=White ctermfg=White guibg=#800000 ctermbg=".s:RGB(2,0,0)   
-  exec "hi MarkWord8  guifg=White ctermfg=White guibg=#FF8C00 ctermbg=".s:RGB(3,2,0)   
-  exec "hi MarkWord9  guifg=Black ctermfg=Black guibg=#00FF7F ctermbg=".s:RGB(0,5,2)   
-  exec "hi MarkWord10 guifg=White ctermfg=White guibg=#8A2BE2 ctermbg=".s:RGB(2,1,5)   
-  exec "hi MarkWord11 guifg=Black ctermfg=Black guibg=#FFFAFA ctermbg=".s:RGB(5,5,5)   
-  exec "hi MarkWord12 guifg=White ctermfg=White guibg=#DE3163 ctermbg=".s:RGB(5,1,2)   
-endif                                                                                  
+" Mark.vim
+" overlay default colors
+function! s:RGB(r, g, b)
+    return a:r * 36 + a:g * 6 + a:b + 16
+endfunction
+
+if &t_Co < 256
+    hi MarkWord7 guifg=White ctermfg=White guibg=#800000 ctermbg=Maroon
+    hi MarkWord8 guifg=White ctermfg=White guibg=#FF8C00 ctermbg=DarkOrange
+    hi MarkWord9 guifg=Black ctermfg=Black guibg=#00FF7F ctermbg=SpringGreen
+    hi MarkWord10 guifg=White ctermfg=White guibg=#8A2BE2 ctermbg=BlueViolet
+    hi MarkWord11 guifg=Black ctermfg=Black guibg=#FFFAFA ctermbg=Snow
+    hi MarkWord12 guifg=White ctermfg=White guibg=#DE3163 ctermbg=Cherry
+else
+  exec "hi MarkWord7  guifg=White ctermfg=White guibg=#800000 ctermbg=".s:RGB(2,0,0)
+  exec "hi MarkWord8  guifg=White ctermfg=White guibg=#FF8C00 ctermbg=".s:RGB(3,2,0)
+  exec "hi MarkWord9  guifg=Black ctermfg=Black guibg=#00FF7F ctermbg=".s:RGB(0,5,2)
+  exec "hi MarkWord10 guifg=White ctermfg=White guibg=#8A2BE2 ctermbg=".s:RGB(2,1,5)
+  exec "hi MarkWord11 guifg=Black ctermfg=Black guibg=#FFFAFA ctermbg=".s:RGB(5,5,5)
+  exec "hi MarkWord12 guifg=White ctermfg=White guibg=#DE3163 ctermbg=".s:RGB(5,1,2)
+endif                                                                              
                                                                                        
 
 " --- kien/ctrlp.vim
