@@ -83,7 +83,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'The-NERD-tree'
-Plugin 'scrooloose/nerdcommenter'
+Plugin 'preservim/nerdcommenter'
 Plugin 'majutsushi/tagbar'
 Plugin 'taglist.vim'
 Plugin 'jlanzarotta/bufexplorer'
@@ -210,9 +210,16 @@ filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
 
 
-" 文件格式，默认 ffs=dos,unix
-set fileformat=unix
+" set new filetype syntax
+if has("autocmd")
+   autocmd BufNewFile,Bufread *.hal  set syntax=java
+   autocmd BufNewFile,Bufread *.aidl set syntax=java
+endif
+
+
+" set file format. default fileformats=unix,dos
 set fileformats=unix,dos,mac
+
 
 " set color theme
 colorscheme onedark
@@ -682,7 +689,7 @@ let MRU_Window_Height = 8
 " Mark.vim
 " overlay default colors
 function! s:RGB(r, g, b)
-    return a:r * 36 + a:g * 6 + a:b + 16
+	return a:r * 36 + a:g * 6 + a:b + 16
 endfunction
 
 if &t_Co < 256
@@ -693,14 +700,15 @@ if &t_Co < 256
     hi MarkWord11 guifg=Black ctermfg=Black guibg=#FFFAFA ctermbg=Snow
     hi MarkWord12 guifg=White ctermfg=White guibg=#DE3163 ctermbg=Cherry
 else
-  exec "hi MarkWord7  guifg=White ctermfg=White guibg=#800000 ctermbg=".s:RGB(2,0,0)
-  exec "hi MarkWord8  guifg=White ctermfg=White guibg=#FF8C00 ctermbg=".s:RGB(3,2,0)
-  exec "hi MarkWord9  guifg=Black ctermfg=Black guibg=#00FF7F ctermbg=".s:RGB(0,5,2)
-  exec "hi MarkWord10 guifg=White ctermfg=White guibg=#8A2BE2 ctermbg=".s:RGB(2,1,5)
-  exec "hi MarkWord11 guifg=Black ctermfg=Black guibg=#FFFAFA ctermbg=".s:RGB(5,5,5)
-  exec "hi MarkWord12 guifg=White ctermfg=White guibg=#DE3163 ctermbg=".s:RGB(5,1,2)
-endif                                                                              
-                                                                                       
+    exec "hi MarkWord1  guifg=White ctermfg=White guibg=#FF5F00 ctermbg=".s:RGB(5,1,0)
+    exec "hi MarkWord7  guifg=White ctermfg=White guibg=#800000 ctermbg=".s:RGB(2,0,0)
+    exec "hi MarkWord8  guifg=White ctermfg=White guibg=#FF8C00 ctermbg=".s:RGB(3,2,0)
+    exec "hi MarkWord9  guifg=Black ctermfg=Black guibg=#00FF7F ctermbg=".s:RGB(0,5,2)
+    exec "hi MarkWord10 guifg=White ctermfg=White guibg=#8A2BE2 ctermbg=".s:RGB(2,1,5)
+    exec "hi MarkWord11 guifg=Black ctermfg=Black guibg=#FFFAFA ctermbg=".s:RGB(5,5,5)
+    exec "hi MarkWord12 guifg=White ctermfg=White guibg=#DE3163 ctermbg=".s:RGB(5,1,2)
+endif
+
 
 " --- kien/ctrlp.vim
 " @see https://github.com/codepiano/ctrlp.vim/blob/master/doc/ctrlp.cnx
@@ -984,7 +992,6 @@ function! DeleteWhitespaceBlankline()
         call cursor(b:curline, b:curcol)
     endif
 endfunction
-
 autocmd FileType c,cpp,java,html autocmd BufWritePre * call DeleteWhitespaceBlankline()
 
 " use ntpeters/vim-better-whitespace
