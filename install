@@ -1,72 +1,144 @@
-#!/bin/sh
+#!/bin/bash
 
-cur_dir=`pwd`
-echo "PWD: $cur_dir"
+global_version="global-6.6.4"
+ctags_version="ctags-5.8"
+cscope_version="cscope-15.8a"
+ccglue_version="ccglue-0.6.0"
 
-# install vim74 & ctags & cscope
-tar jxf package/vim-7.4.tar.bz2 -C .
-#tar jxf package/vim-8.0.tar.bz2 -C .
-tar zxf package/ctags-5.8.tar.gz -C .
-tar zxf package/cscope-15.8a.tar.gz -C .
-#tar zxf package/global-6.3.3.tar.gz -C .
-tar zxf package/global-6.5.7.tar.gz -C .
-tar jxf package/ccglue-release-0.6.0.tar.bz2 -C .
-sudo apt-get install libncurses5-dev lua5.2 liblua5.2-dev
-#sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev ruby-dev mercurial lua5.2 liblua5.2-dev
 
-die() {
-	cd $cur_dir
-	sudo rm -rf $1
-	echo "$1 install fail!" >&2
-	exit 1
+# trim space
+trim() {
+    str=""
+
+    if [ $# -gt 0 ]; then
+        str="$1"
+    fi
+    echo "$str" | sed -e 's/^[ \t\r\n]*//g' | sed -e 's/[ \t\r\n]*$//g'
 }
 
-for package in vim74 ctags-5.8 cscope-15.8a ccglue-0.6.0 global-6.5.7
-do
-	echo $package
-	cd $package
-	echo "\n #####install $package ..."
+# get system type, eg. ubuntu centos alpine
+get_os_type() {
+    #os=$(trim $(cat /etc/os-release 2>/dev/null | grep ^ID= | awk -F= '{print $2}'))
+	os=$(trim $(awk -F= '/^ID=/{print $2}' /etc/os-release))
 
-	if [ $package = "vim74" ]; then
-		./configure --prefix=/usr \
-			--enable-cscope \
-			--enable-multibyte \
-			--enable-xim \
-			--enable-fontset \
-			--enable-gui=gtk2 \
-			--enable-luainterp=yes \
-			--enable-rubyinterp=yes \
-			--enable-perlinterp \
-			--enable-pythoninterp \
-			--with-python-config-dir=/usr/lib/python2.7/config-i386-linux-gnu/ \
-			--with-features=huge \
-			--with-x \
-			>/dev/null 2>&1
-	else
+    if [ "$os" = "" ]; then
+        os=$(trim $(lsb_release -i 2>/dev/null | awk -F: '{print $2}'))
+    fi
+
+    if [ ! "$os" = "" ]; then
+        os=$(echo $os | tr '[A-Z]' '[a-z]')
+    fi
+
+    echo $os
+}
+
+install_depend() {
+    case "$(os)" in
+    ubuntu)j
+        sudo apt install git python-dev ruby-dev libncurses5-dev lua5.2 liblua5.2-dev
+        ;;
+    centos)
+        yum install git python-dev ruby-dev libncurses5-dev lua5.2 liblua5.2-dev
+        ;;
+    *)
+        echo unknow os $OS, exit!
+        return
+        ;;
+    esac
+}
+
+make_install_vim() {
+    git clone https://github.com/vim/vim.git
+    cd $current_dir/vim/
+    echo $PWD
+	echo "##### install vim #####"
+
+    ./configure --prefix=/usr \
+        --enable-cscope \
+        --enable-multibyte \
+        --enable-xim \
+        --enable-fontset \
+        --enable-gui=gtk2 \
+        --enable-luainterp=yes \
+        --enable-rubyinterp=yes \
+        --enable-perlinterp \
+        --enable-pythoninterp \
+        --with-python-config-dir=/usr/lib/python2.7/config-i386-linux-gnu/ \
+        --with-features=huge \
+        --with-x \
+        >/dev/null 2>&1
+
+    make >/dev/null 2>&1;
+    sudo make install >/dev/null 2>&1
+    [ $? -ne 0 ] && echo "make vim abort, leave $PWD" && exit 1
+    cd $current_dir && rm -rf vim
+    echo "##### install vim done #####"
+}
+
+make_install_plug() {
+	wget https://ftp.gnu.org/pub/gnu/global/$global_version.tar.gz
+	tar zxf global*.tar.gz -C .
+	tar zxf packages/ctags*.tar.gz -C .
+	tar zxf packages/cscope*.tar.gz -C .
+	tar jxf packages/ccglue*.tar.bz2 -C .
+
+	for package in $global_version $ctags_version $cscope_version $ccglue_version
+	do
+		cd $current_dir/$package
+		echo ""
+		echo "##### install $package #####"
+
 		./configure --prefix=/usr/local >/dev/null 2>&1
+
+		make >/dev/null 2>&1
+		sudo make install >/dev/null 2>&1
+		[ $? -ne 0 ] && echo "make $package abort, leave $PWD" && exit 1
+		cd $current_dir && rm -rf $package*
+		echo "##### install $package done #####"
+	done
+}
+
+macos_install() {
+	brew install vim
+	brew install ctags
+}
+
+vim_config() {
+	# create .vim folder and copy vimrc
+	[ ! -e "$HOME/.vim" ] && mkdir -p ~/.vim/
+	[ ! -e "$HOME/.vim/.swap" ] && mkdir -p ~/.vim/.swap
+	[ ! -e "$HOME/.vim/.undodir" ] && mkdir -p ~/.vim/.undodir
+	cp -v $current_dir/vimrc ~/.vim/
+	cp -rvf $current_dir/scripts ~/.vim/
+
+	if [ -f $HOME/.bashrc ]; then
+		echo "" >> $HOME/.bashrc
+		echo "# configure for vim" >> $HOME/.bashrc
+		echo "alias vi='vim'" >> $HOME/.bashrc
+		echo "export PATH=~/.vim/scripts/:\$PATH" >> $HOME/.bashrc
+	elif [ -f $HOME/.zshrc ]; then
+		echo "" >> $HOME/.zshrc
+		echo "# configure for vim" >> $HOME/.zshrc
+		echo "alias vi='vim'" >> $HOME/.zshrc
+		echo "export PATH=~/.vim/scripts/:\$PATH" >> $HOME/.zshrc
 	fi
+	echo "----- Configure vimrc done. -----"
+}
 
-	sudo make >/dev/null 2>&1; sudo make install >/dev/null 2>&1
-	[ $? -ne 0 ] && die $package
-	cd $cur_dir
-	sudo rm -rf $package
-	echo " #####install $package done ...\n"
-done
+current_dir=`pwd`
+echo "The current installation directory is $current_dir"
 
+get_os_type
+vim_config
+exit 0
 
-# create .vim folder and copy vimrc
-[ ! -e "$HOME/.vim" ] && mkdir -p ~/.vim/
-[ ! -e "$HOME/.vim/.swap" ] && mkdir -p ~/.vim/.swap
-[ ! -e "$HOME/.vim/.undodir" ] && mkdir -p ~/.vim/.undodir
-cp -v vimrc ~/.vim/
-cp -rf scripts ~/.vim/
-cp -rf colors ~/.vim/
+if [ "$os" = "ubuntu" ]; then
+	make_install_vim
+	make_install_plug
+else
+	macos_install
+fi
 
-cd ~/.vim
-ln -s scripts/tags tag
-ln -s scripts/ktags ktags
-echo "alias vi='vim'" >> ~/.bashrc
-echo "alias e='vim'" >> ~/.bashrc
-echo "alias g='gvim'" >> ~/.bashrc
-echo "export PATH=~/.vim/:\$PATH" >> ~/.bashrc
-echo "\n configure vimrc done ...\n"
+vim_config
+exit 0
+
