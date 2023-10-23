@@ -9,10 +9,9 @@ Vim install and plugins configure
 for Unix-like(Mac, Linux):
 
 ```
-$ git clone https://github.com/oujf/vim-install.git ./vim-install
+$ git clone https://github.com/oujf/vim-install.git
 $ cd vim-install
 $ ./install
-$ ./install_mac		//for macOS install
 
 Launch `vim` and run `:PluginInstall`
 Start install from command line: `vim +PluginInstall +qall`
