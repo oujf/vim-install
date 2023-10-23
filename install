@@ -1,10 +1,8 @@
 #!/bin/bash
-
 global_version="global-6.6.4"
 ctags_version="ctags-5.8"
 cscope_version="cscope-15.8a"
 ccglue_version="ccglue-0.6.0"
-
 
 # trim space
 trim() {
@@ -19,7 +17,7 @@ trim() {
 # get system type, eg. ubuntu centos alpine
 get_os_type() {
     #os=$(trim $(cat /etc/os-release 2>/dev/null | grep ^ID= | awk -F= '{print $2}'))
-	os=$(trim $(awk -F= '/^ID=/{print $2}' /etc/os-release))
+    os=$(trim $(awk -F= '/^ID=/{print $2}' /etc/os-release))
 
     if [ "$os" = "" ]; then
         os=$(trim $(lsb_release -i 2>/dev/null | awk -F: '{print $2}'))
@@ -36,7 +34,7 @@ install_depend() {
     case "$os" in
     ubuntu)
         #sudo apt install git python-dev ruby-dev libncurses5-dev lua5.2 liblua5.2-dev
-        sudo apt install cscope universal-ctags global        
+        sudo apt install cscope universal-ctags global
         ;;
     centos)
         yum install git python-dev ruby-dev libncurses5-dev lua5.2 liblua5.2-dev
@@ -52,7 +50,7 @@ make_install_vim() {
     git clone https://github.com/vim/vim.git
     cd $current_dir/vim/
     echo $PWD
-	echo "##### install vim #####"
+    echo "##### install vim #####"
 
     ./configure --prefix=/usr \
         --enable-cscope \
@@ -133,11 +131,11 @@ get_os_type
 vim_config
 
 if [ "$os" = "ubuntu" ]; then
-        install_depend
-        #make_install_vim  #not install by default, use system vim
-        #make_install_plug #not install by default, installed through apt at install_depend
+    install_depend
+    #make_install_vim  #not install by default, use system vim
+    #make_install_plug #not install by default, installed through apt at install_depend
 else
-        macos_install
+    macos_install
 fi
 
 exit 0
