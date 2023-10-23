@@ -33,9 +33,10 @@ get_os_type() {
 }
 
 install_depend() {
-    case "$(os)" in
-    ubuntu)j
-        sudo apt install git python-dev ruby-dev libncurses5-dev lua5.2 liblua5.2-dev
+    case "$os" in
+    ubuntu)
+        #sudo apt install git python-dev ruby-dev libncurses5-dev lua5.2 liblua5.2-dev
+        sudo apt install cscope universal-ctags global        
         ;;
     centos)
         yum install git python-dev ruby-dev libncurses5-dev lua5.2 liblua5.2-dev
@@ -130,15 +131,14 @@ echo "The current installation directory is $current_dir"
 
 get_os_type
 vim_config
-exit 0
 
 if [ "$os" = "ubuntu" ]; then
-	make_install_vim
-	make_install_plug
+        install_depend
+        #make_install_vim  #not install by default, use system vim
+        #make_install_plug #not install by default, installed through apt at install_depend
 else
-	macos_install
+        macos_install
 fi
 
-vim_config
 exit 0
 
