@@ -136,7 +136,7 @@ function create_ftags() {
 }
 
 function create_tag() {
-	if [ -x /usr/local/bin/gtags ]; then
+	if [ -x /usr/local/bin/gtags ] || [ -x /usr/bin/gtags ]; then
 		echo "Gtags installed."
 		create_gtags
 	else
